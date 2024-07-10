@@ -6,9 +6,19 @@
 	import * as Form from '$lib/components/ui/form';
 	import { enhance } from '$app/forms';
 	import Input from '$lib/components/ui/input/input.svelte';
+	import { zod } from 'sveltekit-superforms/adapters';
+	import { z } from 'zod';
 
 	let { data } = $props();
-	const { form } = superForm(data.userForm);
+	const userSchema = z.object({
+		first_name: z.string().min(1, 'First name is required.'),
+		last_name: z.string().min(1, 'Last name is required.')
+	});
+
+	const { form } = superForm(data.userForm, {
+		validators: zod(userSchema)
+	});
+
 	let dialogOpen = $state(false);
 </script>
 
@@ -33,7 +43,7 @@
 					<Input id="last_name" name="last_name" type="text" bind:value={$form.last_name} />
 				</Form.Control>
 			</Form.Field>
-			<Form.Button>Add User</Form.Button>
+			<Form.Button>Submit</Form.Button>
 		</form>
 	</Dialog.Content>
 </Dialog.Root>
