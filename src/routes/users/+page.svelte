@@ -11,7 +11,8 @@
 	<Table.Header>
 		<Table.Row>
 			<Table.Head class="w-[100px]">ID</Table.Head>
-			<Table.Head>Name</Table.Head>
+			<Table.Head>First Name</Table.Head>
+			<Table.Head>Last Name</Table.Head>
 			<Table.Head></Table.Head>
 		</Table.Row>
 	</Table.Header>
@@ -19,8 +20,9 @@
 		{#each data.users as user (user.id)}
 			<Table.Row>
 				<Table.Cell class="font-medium">{user.id}</Table.Cell>
-				<Table.Cell>{user.name}</Table.Cell>
-				<Table.Cell>Edit</Table.Cell>
+				<Table.Cell>{user.first_name}</Table.Cell>
+				<Table.Cell>{user.last_name}</Table.Cell>
+				<Table.Cell><a href="/users/{user.id}/edit">Edit</a></Table.Cell>
 			</Table.Row>
 		{/each}
 	</Table.Body>
