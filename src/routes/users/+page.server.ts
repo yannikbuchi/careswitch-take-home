@@ -1,6 +1,6 @@
 import { prisma } from '$lib/server/db';
 import type { Actions } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms';
+import { superValidate, message } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
 
@@ -11,25 +11,26 @@ const userSchema = z.object({
 
 export const load = async () => {
 	const users = await prisma.user.findMany();
-	const form = await superValidate(zod(userSchema));
+	const userForm = await superValidate(zod(userSchema));
 
-	return { users, form };
+	return { users, userForm };
 };
 
 export const actions: Actions = {
 	addUser: async ({ request }) => {
+		debugger;
 		const form = await superValidate(request, zod(userSchema));
-
 		if (!form.valid) {
-			return { status: 400, body: { form } };
+			console.log(message(form, 'Invalid form'));
+			return message(form, 'Invalid form');
 		}
-
 		try {
 			const { first_name, last_name } = form.data;
 			const newUser = await prisma.user.create({
 				data: { first_name, last_name }
 			});
-			return { status: 201, body: { newUser, form } };
+			console.log(message(form, { text: 'User was successfully added!', id: newUser.id }));
+			return message(form, { text: 'User was successfully added!', id: newUser.id });
 		} catch (error) {
 			return { status: 500, body: { error: 'Failed to create user.' } };
 		}
