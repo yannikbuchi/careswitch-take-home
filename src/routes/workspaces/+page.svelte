@@ -63,7 +63,12 @@
 		{#each data.workspaces as workspace (workspace.id)}
 			<Table.Row>
 				<Table.Cell class="font-medium">{workspace.id}</Table.Cell>
-				<Table.Cell>{workspace.name}</Table.Cell>
+				<Table.Cell
+					><Button.Root variant="link" href={`/workspaces/${workspace.id}`}
+						>{workspace.name}</Button.Root
+					></Table.Cell
+				>
+				<Table.Cell>{workspace.description}</Table.Cell>
 				<Table.Cell><a href="/workspaces/{workspace.id}/edit">Edit</a></Table.Cell>
 			</Table.Row>
 		{/each}
