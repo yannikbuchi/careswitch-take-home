@@ -9,4 +9,4 @@
 
 <!-- TO DO: Add number of users and workspaces below -->
 <h2>Users ({data.userCount})</h2>
-<h2>Workspaces ()</h2>
+<h2>Workspaces ({data.workspaceCount})</h2>
