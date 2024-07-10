@@ -32,7 +32,7 @@
 					></Table.Cell
 				>
 				<Table.Cell>{workspace.workspace.description}</Table.Cell>
-				<Table.Cell><a href="/workspaces/{workspace.workspace.id}/edit">Edit</a></Table.Cell>
+				<Table.Cell><Button variant="outline">Leave</Button></Table.Cell>
 			</Table.Row>
 		{/each}
 	</Table.Body>

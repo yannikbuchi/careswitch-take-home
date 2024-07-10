@@ -28,7 +28,6 @@
 
 <h1>Edit Workspace</h1>
 
-<!-- TO DO: Add Form to edit workspace name and description -->
 <h1>Editing {workspace?.name}</h1>
 
 <form method="POST" action="?/editWorkspace">
