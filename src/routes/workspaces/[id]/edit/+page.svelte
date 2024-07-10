@@ -19,13 +19,15 @@
 	<Dialog.Overlay />
 	<Dialog.Content>
 		<Dialog.Title>Confirm Delete Workspace</Dialog.Title>
-		<Dialog.Description
-			>Are you sure you want to delete this workspace? This action is permanent.</Dialog.Description
-		>
-		<Dialog.Footer class="sm:justify-start">
-			<Dialog.Close asChild>
-				<Button type="button" variant="destructive">Delete</Button>
-			</Dialog.Close>
-		</Dialog.Footer>
+		<form method="POST" action="?/deleteWorkspace">
+			<Dialog.Description
+				>Are you sure you want to delete this workspace? This action is permanent.</Dialog.Description
+			>
+			<Dialog.Footer class="sm:justify-start">
+				<Dialog.Close asChild>
+					<Button type="submit" variant="destructive">Delete</Button>
+				</Dialog.Close>
+			</Dialog.Footer>
+		</form>
 	</Dialog.Content>
 </Dialog.Root>

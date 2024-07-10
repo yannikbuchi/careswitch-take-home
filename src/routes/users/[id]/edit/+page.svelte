@@ -21,8 +21,7 @@
 		<Dialog.Title>Confirm Delete User</Dialog.Title>
 		<form method="POST" action="?/deleteUser">
 			<Dialog.Description
-				>Are you sure you want to delete this user? This action will permanently remove the user
-				from our servers.</Dialog.Description
+				>Are you sure you want to delete this user? This action is permanent.</Dialog.Description
 			>
 			<Dialog.Footer class="sm:justify-start">
 				<Dialog.Close asChild>
