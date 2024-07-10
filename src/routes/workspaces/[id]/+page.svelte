@@ -9,8 +9,6 @@
 <h1>{workspace?.name}</h1>
 <p>{workspace?.description}</p>
 
-<!--  TO DO: Display Users under that workspace -->
-
 <h1>Users</h1>
 <Table.Root>
 	<Table.Header>

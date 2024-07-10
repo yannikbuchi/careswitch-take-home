@@ -19,7 +19,7 @@ export const load = async ({ params }) => {
 	if (!workspace) {
 		return {
 			status: 404,
-			error: new Error('Workspace not found')
+			error: 'Workspace not found'
 		};
 	}
 
