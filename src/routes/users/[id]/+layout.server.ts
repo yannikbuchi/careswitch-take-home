@@ -10,7 +10,7 @@ export const load = async ({ params }) => {
 	if (!user) {
 		return {
 			status: 404,
-			error: new Error('User not found')
+			error: 'User not found.'
 		};
 	}
 

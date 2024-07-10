@@ -18,7 +18,6 @@ export const load = async () => {
 
 export const actions: Actions = {
 	addUser: async ({ request }) => {
-		debugger;
 		const form = await superValidate(request, zod(userSchema));
 		if (!form.valid) {
 			console.log(message(form, 'Invalid form'));
