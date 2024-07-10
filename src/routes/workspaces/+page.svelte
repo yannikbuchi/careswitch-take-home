@@ -1,12 +1,13 @@
 <script lang="ts">
 	import * as Table from '$lib/components/ui/table';
+	import { Button } from '$lib/components/ui/button/index.js';
 
 	let { data } = $props();
 </script>
 
 <h1>Workspaces</h1>
 
-<button>+ Add Workspace</button>
+<Button>+ Add Workspace</Button>
 
 <Table.Root>
 	<Table.Header>

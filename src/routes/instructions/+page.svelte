@@ -21,7 +21,7 @@
 				{#each data.users as user (user.id)}
 					<Table.Row>
 						<Table.Cell class="font-medium">{user.id}</Table.Cell>
-						<Table.Cell>{user.name}</Table.Cell>
+						<Table.Cell>{user.first_name}</Table.Cell>
 					</Table.Row>
 				{/each}
 			</Table.Body>
