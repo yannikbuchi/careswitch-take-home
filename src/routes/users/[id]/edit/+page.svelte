@@ -28,16 +28,16 @@
 	let dialogOpen = $state(false);
 </script>
 
-<h1>Edit User {full_name}</h1>
+<h1>Editing User {full_name}</h1>
 
 <form method="POST" action="?/editUser">
 	<div>
 		<label for="first_name">First Name</label>
-		<input id="first_name" name="first_name" bind:value={$form.first_name} type="text" required />
+		<input id="first_name" name="first_name" bind:value={$form.first_name} type="text" />
 	</div>
 	<div>
 		<label for="last_name">Last Name</label>
-		<input id="last_name" name="last_name" bind:value={$form.last_name} type="text" required />
+		<input id="last_name" name="last_name" bind:value={$form.last_name} type="text" />
 	</div>
 	<Button type="submit">Save Changes</Button>
 </form>
