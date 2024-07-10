@@ -19,6 +19,7 @@ export const load = async ({ params }) => {
 export const actions: Actions = {
 	editUser: async ({ request, params }) => {
 		const form = await superValidate(request, zod(userSchema));
+		let updateSuccessful = false;
 
 		if (!form.valid) {
 			return message(form, 'Invalid form', { status: 400 });
@@ -30,10 +31,12 @@ export const actions: Actions = {
 				where: { id: params.id },
 				data: { first_name, last_name }
 			});
-			return message(form, 'User update successfully!');
+			updateSuccessful = true;
 		} catch (error) {
 			return fail(500, { error: 'Failed to update user.' });
 		}
+
+		redirect(303, `/users/${params.id}`);
 	},
 	deleteUser: async ({ params }) => {
 		let deleteSuccess = false;

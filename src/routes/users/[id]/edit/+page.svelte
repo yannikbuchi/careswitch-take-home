@@ -12,7 +12,6 @@
 		last_name: z.string().min(1, 'Last name is required')
 	});
 
-	// Initialize the form using Superform
 	const { form } = superForm(
 		{
 			first_name: data.user?.first_name || '',
