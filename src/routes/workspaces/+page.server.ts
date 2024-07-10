@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/db';
-import type { Actions } from '@sveltejs/kit';
+import { redirect, type Actions } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
@@ -18,8 +18,8 @@ export const load = async () => {
 
 export const actions: Actions = {
 	addWorkspace: async ({ request }) => {
-		debugger;
 		const form = await superValidate(request, zod(workspaceSchema));
+		let addWorkspaceSuccess = false;
 		if (!form.valid) {
 			console.log(message(form, 'Invalid form'));
 			return message(form, 'Invalid form');
@@ -32,9 +32,13 @@ export const actions: Actions = {
 			console.log(
 				message(form, { text: 'Workspace was successfully added!', id: newWorkspace.id })
 			);
-			return message(form, { text: 'Workspace was successfully added!', id: newWorkspace.id });
+			addWorkspaceSuccess = true;
 		} catch (error) {
 			return { status: 500, body: { error: 'Failed to create workspace.' } };
+		}
+
+		if (addWorkspaceSuccess) {
+			redirect(303, '/workspaces');
 		}
 	}
 };

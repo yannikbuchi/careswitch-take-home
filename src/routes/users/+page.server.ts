@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/db';
-import type { Actions } from '@sveltejs/kit';
+import { redirect, type Actions } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
@@ -19,8 +19,10 @@ export const load = async () => {
 export const actions: Actions = {
 	addUser: async ({ request }) => {
 		const form = await superValidate(request, zod(userSchema));
+		let addUserSuccess = false;
 		if (!form.valid) {
 			console.log(message(form, 'Invalid form'));
+			// TO DO: add frontend error handling of forms
 			return message(form, 'Invalid form');
 		}
 		try {
@@ -29,9 +31,13 @@ export const actions: Actions = {
 				data: { first_name, last_name }
 			});
 			console.log(message(form, { text: 'User was successfully added!', id: newUser.id }));
-			return message(form, { text: 'User was successfully added!', id: newUser.id });
+			addUserSuccess = true;
 		} catch (error) {
 			return { status: 500, body: { error: 'Failed to create user.' } };
+		}
+
+		if (addUserSuccess) {
+			redirect(303, '/users');
 		}
 	}
 };

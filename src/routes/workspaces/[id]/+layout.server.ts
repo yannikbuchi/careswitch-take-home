@@ -7,6 +7,15 @@ export const load = async ({ params }) => {
 		}
 	});
 
+	const users = await prisma.usersOnWorkspaces.findMany({
+		where: {
+			workspaceId: params.id
+		},
+		include: {
+			user: true
+		}
+	});
+
 	if (!workspace) {
 		return {
 			status: 404,
@@ -14,5 +23,5 @@ export const load = async ({ params }) => {
 		};
 	}
 
-	return { workspace };
+	return { workspace, users };
 };

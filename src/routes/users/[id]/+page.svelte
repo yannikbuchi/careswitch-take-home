@@ -5,3 +5,5 @@
 </script>
 
 <h1>{full_name}</h1>
+
+<!-- TO DO: Display Workspaces the user belongs to -->
