@@ -10,12 +10,14 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<div class="flex items-center space-x-2">
-		<h1 class="text-left text-4xl font-bold">{full_name}</h1>
-		<Badge class="ml-2 mt-2">User</Badge>
+	<div class="flex items-center justify-between">
+		<div class="flex items-center space-x-2">
+			<h1 class="text-left text-4xl font-bold">{full_name}</h1>
+			<Badge class="ml-2 mt-2 bg-green-100 text-green-800">User</Badge>
+		</div>
+		<Button href="/users/{user?.id}/edit" class="ml-4 mt-2">Edit User</Button>
 	</div>
-	<Button href="/users/{user?.id}/edit" class="mt-4">Edit User</Button>
-	<h2 class="mt-8 text-left text-4xl font-bold">Workspaces</h2>
+	<h2 class="mt-8 text-left text-3xl font-bold">Workspaces</h2>
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 		<Table.Root>

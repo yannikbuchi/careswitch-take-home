@@ -13,16 +13,18 @@
 		<Button
 			href="/users"
 			variant="secondary"
-			class="flex h-40 w-40 items-center justify-center text-lg"
+			class="flex h-40 w-40 flex-col items-center justify-center text-lg"
 		>
 			Users ({data.userCount})
+			<img src="/users.svg" alt="Users Icon" class="mt-2 h-7 w-7" />
 		</Button>
 		<Button
 			href="/workspaces"
 			variant="secondary"
-			class="flex h-40 w-40 items-center justify-center text-lg"
+			class="flex h-40 w-40 flex-col items-center justify-center text-lg"
 		>
 			Workspaces ({data.workspaceCount})
+			<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
 		</Button>
 	</div>
 </div>

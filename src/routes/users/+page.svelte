@@ -23,11 +23,14 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<h1 class="text-left text-4xl font-bold">Users</h1>
+	<div class="flex items-center space-x-2">
+		<img src="/users.svg" alt="Users Icon" class="mt-2 h-7 w-7" />
+		<h1 class="text-left text-4xl font-bold">Users</h1>
+	</div>
 
 	<Dialog.Root>
 		<Dialog.Trigger>
-			<Button.Root on:click={() => (dialogOpen = true)} class="mt-4">+ Add User</Button.Root>
+			<Button.Root onclick={() => (dialogOpen = true)} class="mt-4">+ Add User</Button.Root>
 		</Dialog.Trigger>
 		<Dialog.Overlay />
 		<Dialog.Content>
@@ -51,20 +54,19 @@
 	</Dialog.Root>
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
-		<Table.Root>
+		<Table.Root class="w-full">
 			<Table.Header class="bg-gray-100">
 				<Table.Row>
 					<Table.Head class="w-[100px] p-4">ID</Table.Head>
-					<Table.Head class="p-4">Name</Table.Head>
-					<Table.Head class="p-4"></Table.Head>
+					<Table.Head class="w-[200px] p-4">First Name</Table.Head>
+					<Table.Head class="w-[200px] p-4">Last Name</Table.Head>
+					<Table.Head class="mr-4 p-4 text-right"></Table.Head>
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
 				{#if data.users.length === 0}
 					<tr>
-						<td colspan="3" class="p-4 text-center text-gray-500"
-							>There are currently no users in this workspace.</td
-						>
+						<td colspan="4" class="p-4 text-center text-gray-500">There are currently no users.</td>
 					</tr>
 				{:else}
 					{#each data.users as user (user.id)}
@@ -72,10 +74,15 @@
 							<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
 							<Table.Cell class="p-4">
 								<Button.Root variant="link" href="/users/{user.id}">
-									{user.first_name + ' ' + user.last_name}
+									{user.first_name}
 								</Button.Root>
 							</Table.Cell>
 							<Table.Cell class="p-4">
+								<Button.Root variant="link" href="/users/{user.id}">
+									{user.last_name}
+								</Button.Root>
+							</Table.Cell>
+							<Table.Cell class="mr-10 p-4 text-right">
 								<a href="/users/{user.id}/edit" class="text-blue-500 hover:underline">Edit</a>
 							</Table.Cell>
 						</Table.Row>
