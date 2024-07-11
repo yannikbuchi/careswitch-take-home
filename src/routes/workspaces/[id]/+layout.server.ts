@@ -7,6 +7,13 @@ export const load = async ({ params }) => {
 		}
 	});
 
+	if (!workspace) {
+		return {
+			status: 404,
+			error: 'Workspace not found'
+		};
+	}
+
 	const users = await prisma.usersOnWorkspaces.findMany({
 		where: {
 			workspaceId: params.id
@@ -16,12 +23,15 @@ export const load = async ({ params }) => {
 		}
 	});
 
-	if (!workspace) {
-		return {
-			status: 404,
-			error: 'Workspace not found'
-		};
-	}
+	const usersInWorkspace = users.map((uow) => uow.userId);
 
-	return { workspace, users };
+	const usersNotInWorkspace = await prisma.user.findMany({
+		where: {
+			id: {
+				notIn: usersInWorkspace
+			}
+		}
+	});
+
+	return { workspace, users, usersNotInWorkspace };
 };

@@ -55,5 +55,59 @@ export const actions: Actions = {
 		if (deleteSuccess) {
 			return redirect(303, '/workspaces');
 		}
+	},
+	removeUserFromWorkspace: async ({ request }) => {
+		const data = await request.formData();
+		const userId = data.get('userId');
+		const workspaceId = data.get('workspaceId');
+		let removeUserFromWorkspaceSuccess = false;
+
+		if (typeof userId !== 'string' || typeof workspaceId !== 'string') {
+			return fail(400, { error: 'Invalid user or workspace ID' });
+		}
+
+		try {
+			await prisma.usersOnWorkspaces.delete({
+				where: {
+					userId_workspaceId: {
+						userId: userId,
+						workspaceId: workspaceId
+					}
+				}
+			});
+			removeUserFromWorkspaceSuccess = true;
+		} catch (error) {
+			return fail(500, { error: 'Failed to remove user from workspace' });
+		}
+
+		if (removeUserFromWorkspaceSuccess) {
+			return redirect(303, `/workspaces/${workspaceId}`);
+		}
+	},
+	addUserToWorkspace: async ({ request }) => {
+		const data = await request.formData();
+		const userId = data.get('userId');
+		const workspaceId = data.get('workspaceId');
+		let addUserToWorkspaceSuccess = false;
+
+		if (typeof userId !== 'string' || typeof workspaceId !== 'string') {
+			return fail(400, { error: 'Invalid user or workspace ID' });
+		}
+
+		try {
+			await prisma.usersOnWorkspaces.create({
+				data: {
+					userId: userId,
+					workspaceId: workspaceId
+				}
+			});
+			addUserToWorkspaceSuccess = true;
+		} catch (error) {
+			return fail(500, { error: 'Failed to add user to workspace' });
+		}
+
+		if (addUserToWorkspaceSuccess) {
+			return redirect(303, `/workspaces/${workspaceId}`);
+		}
 	}
 };
