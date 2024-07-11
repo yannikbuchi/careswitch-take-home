@@ -8,6 +8,8 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { z } from 'zod';
+	import { toast } from 'svelte-sonner';
+	import { onMount } from 'svelte';
 
 	let { data } = $props();
 	const userSchema = z.object({
@@ -18,8 +20,6 @@
 	const { form } = superForm(data.userForm, {
 		validators: zod(userSchema)
 	});
-
-	let dialogOpen = $state(false);
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -30,12 +30,12 @@
 
 	<Dialog.Root>
 		<Dialog.Trigger>
-			<Button.Root onclick={() => (dialogOpen = true)} class="mt-4">+ Add User</Button.Root>
+			<Button.Root class="mt-4">+ Add User</Button.Root>
 		</Dialog.Trigger>
 		<Dialog.Overlay />
 		<Dialog.Content>
-			<Dialog.Title>Add New User</Dialog.Title>
 			<form method="POST" action="?/addUser" use:enhance>
+				<Dialog.Title>Add New User</Dialog.Title>
 				<Form.Field {form} name="first_name">
 					<Form.Control let:attrs>
 						<Form.Label>First Name</Form.Label>
@@ -48,7 +48,9 @@
 						<Input id="last_name" name="last_name" type="text" bind:value={$form.last_name} />
 					</Form.Control>
 				</Form.Field>
-				<Form.Button class="mt-4">Submit</Form.Button>
+				<Dialog.Close>
+					<Form.Button class="mt-4" type="submit">Submit</Form.Button>
+				</Dialog.Close>
 			</form>
 		</Dialog.Content>
 	</Dialog.Root>
@@ -57,9 +59,8 @@
 		<Table.Root class="w-full">
 			<Table.Header class="bg-gray-100">
 				<Table.Row>
-					<Table.Head class="w-[100px] p-4">ID</Table.Head>
-					<Table.Head class="w-[200px] p-4">First Name</Table.Head>
-					<Table.Head class="w-[200px] p-4">Last Name</Table.Head>
+					<Table.Head class="w-[300px] p-4">ID</Table.Head>
+					<Table.Head class="w-[200px] p-4">Name</Table.Head>
 					<Table.Head class="mr-4 p-4 text-right"></Table.Head>
 				</Table.Row>
 			</Table.Header>
@@ -71,15 +72,10 @@
 				{:else}
 					{#each data.users as user (user.id)}
 						<Table.Row>
-							<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
-							<Table.Cell class="p-4">
+							<Table.Cell class="w-[300px] p-4 font-medium">{user.id}</Table.Cell>
+							<Table.Cell class="w-[200px] p-4">
 								<Button.Root variant="link" href="/users/{user.id}">
-									{user.first_name}
-								</Button.Root>
-							</Table.Cell>
-							<Table.Cell class="p-4">
-								<Button.Root variant="link" href="/users/{user.id}">
-									{user.last_name}
+									{user.first_name + ' ' + user.last_name}
 								</Button.Root>
 							</Table.Cell>
 							<Table.Cell class="mr-10 p-4 text-right">
