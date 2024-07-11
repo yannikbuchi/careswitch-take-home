@@ -89,7 +89,9 @@
 <div class="container mx-auto px-4 py-8">
 	<div class="flex items-center space-x-2">
 		<h1 class="text-left text-4xl font-bold">{workspace?.name} (Editing)</h1>
-		<Badge class="ml-2 mt-2">Workspace</Badge>
+		<Badge class="ml-2 mt-1 bg-green-100 text-green-800 hover:bg-green-100 hover:text-green-800"
+			>Workspace</Badge
+		>
 	</div>
 
 	<form method="POST" action="?/editWorkspace" class="mt-4">

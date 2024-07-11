@@ -10,7 +10,9 @@
 <div class="container mx-auto px-4 py-8">
 	<div class="flex items-center space-x-2">
 		<h1 class="text-left text-4xl font-bold">{workspace?.name}</h1>
-		<Badge class="ml-2 mt-2">Workspace</Badge>
+		<Badge class="ml-2 mt-1 bg-green-100 text-green-800 hover:bg-green-200 hover:text-green-900"
+			>Workspace</Badge
+		>
 	</div>
 	<Button href="/workspaces/{workspace?.id}/edit" class="mt-4">Edit Workspace</Button>
 	<p class="mt-4 text-left text-lg">{workspace?.description}</p>
