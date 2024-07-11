@@ -28,36 +28,52 @@
 	let dialogOpen = $state(false);
 </script>
 
-<h1>Editing User {full_name}</h1>
+<div class="container mx-auto px-4 py-8">
+	<h1 class="text-left text-4xl font-bold">Editing User {full_name}</h1>
 
-<form method="POST" action="?/editUser">
-	<div>
-		<label for="first_name">First Name</label>
-		<input id="first_name" name="first_name" bind:value={$form.first_name} type="text" />
-	</div>
-	<div>
-		<label for="last_name">Last Name</label>
-		<input id="last_name" name="last_name" bind:value={$form.last_name} type="text" />
-	</div>
-	<Button type="submit">Save Changes</Button>
-</form>
+	<form method="POST" action="?/editUser" class="mt-4">
+		<div class="mb-4">
+			<label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+			<input
+				id="first_name"
+				name="first_name"
+				bind:value={$form.first_name}
+				type="text"
+				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+			/>
+		</div>
+		<div class="mb-4">
+			<label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+			<input
+				id="last_name"
+				name="last_name"
+				bind:value={$form.last_name}
+				type="text"
+				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+			/>
+		</div>
+		<Button type="submit" class="mt-4">Save Changes</Button>
+	</form>
 
-<Dialog.Root>
-	<Dialog.Trigger>
-		<Button on:click={() => (dialogOpen = true)} variant="destructive">Delete User</Button>
-	</Dialog.Trigger>
-	<Dialog.Overlay />
-	<Dialog.Content>
-		<Dialog.Title>Confirm Delete User</Dialog.Title>
-		<form method="POST" action="?/deleteUser">
-			<Dialog.Description
-				>Are you sure you want to delete this user? This action is permanent.</Dialog.Description
+	<Dialog.Root>
+		<Dialog.Trigger>
+			<Button on:click={() => (dialogOpen = true)} variant="destructive" class="mt-4"
+				>Delete User</Button
 			>
-			<Dialog.Footer class="sm:justify-start">
-				<Dialog.Close asChild>
-					<Button type="submit" variant="destructive">Delete</Button>
-				</Dialog.Close>
-			</Dialog.Footer>
-		</form>
-	</Dialog.Content>
-</Dialog.Root>
+		</Dialog.Trigger>
+		<Dialog.Overlay />
+		<Dialog.Content>
+			<Dialog.Title>Confirm Delete User</Dialog.Title>
+			<form method="POST" action="?/deleteUser">
+				<Dialog.Description>
+					Are you sure you want to delete this user? This action is permanent.
+				</Dialog.Description>
+				<Dialog.Footer class="sm:justify-start">
+					<Dialog.Close asChild>
+						<Button type="submit" variant="destructive">Delete</Button>
+					</Dialog.Close>
+				</Dialog.Footer>
+			</form>
+		</Dialog.Content>
+	</Dialog.Root>
+</div>
