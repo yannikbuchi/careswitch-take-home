@@ -2,24 +2,10 @@
 	import * as Table from '$lib/components/ui/table';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Button from '$lib/components/ui/button';
-	import { superForm } from 'sveltekit-superforms/client';
-	import * as Form from '$lib/components/ui/form';
-	import { enhance } from '$app/forms';
-	import Input from '$lib/components/ui/input/input.svelte';
-	import { zod } from 'sveltekit-superforms/adapters';
-	import { z } from 'zod';
-	import { toast } from 'svelte-sonner';
+	import UsersForm from './users-form.svelte';
 	import { onMount } from 'svelte';
 
 	let { data } = $props();
-	const userSchema = z.object({
-		first_name: z.string().min(1, 'First name is required.'),
-		last_name: z.string().min(1, 'Last name is required.')
-	});
-
-	const { form } = superForm(data.userForm, {
-		validators: zod(userSchema)
-	});
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -34,24 +20,8 @@
 		</Dialog.Trigger>
 		<Dialog.Overlay />
 		<Dialog.Content>
-			<form method="POST" action="?/addUser" use:enhance>
-				<Dialog.Title>Add New User</Dialog.Title>
-				<Form.Field {form} name="first_name">
-					<Form.Control let:attrs>
-						<Form.Label>First Name</Form.Label>
-						<Input id="first_name" name="first_name" type="text" bind:value={$form.first_name} />
-					</Form.Control>
-				</Form.Field>
-				<Form.Field {form} name="last_name">
-					<Form.Control let:attrs>
-						<Form.Label>Last Name</Form.Label>
-						<Input id="last_name" name="last_name" type="text" bind:value={$form.last_name} />
-					</Form.Control>
-				</Form.Field>
-				<Dialog.Close>
-					<Form.Button class="mt-4" type="submit">Submit</Form.Button>
-				</Dialog.Close>
-			</form>
+			<Dialog.Title>Add New User</Dialog.Title>
+			<UsersForm data={data.form} />
 		</Dialog.Content>
 	</Dialog.Root>
 
