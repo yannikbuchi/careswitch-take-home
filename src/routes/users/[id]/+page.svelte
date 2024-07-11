@@ -10,7 +10,10 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<h1 class="text-left text-4xl font-bold">{full_name}</h1>
+	<div class="flex items-center space-x-2">
+		<h1 class="text-left text-4xl font-bold">{full_name}</h1>
+		<Badge class="ml-2 mt-2">User</Badge>
+	</div>
 	<Button href="/users/{user?.id}/edit" class="mt-4">Edit User</Button>
 	<h2 class="mt-8 text-left text-4xl font-bold">Workspaces</h2>
 

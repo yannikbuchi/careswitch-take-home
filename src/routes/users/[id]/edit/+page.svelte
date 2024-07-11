@@ -30,8 +30,10 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<h1 class="text-left text-4xl font-bold">{full_name} (Editing)</h1>
-	<Badge>User</Badge>
+	<div class="flex items-center space-x-2">
+		<h1 class="text-left text-4xl font-bold">{full_name} (Editing)</h1>
+		<Badge class="ml-2 mt-2">User</Badge>
+	</div>
 
 	<form method="POST" action="?/editUser" class="mt-4">
 		<div class="mb-4">

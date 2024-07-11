@@ -87,8 +87,10 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<h1 class="text-left text-4xl font-bold">{workspace?.name} (Editing)</h1>
-	<Badge>Workspace</Badge>
+	<div class="flex items-center space-x-2">
+		<h1 class="text-left text-4xl font-bold">{workspace?.name} (Editing)</h1>
+		<Badge class="ml-2 mt-2">Workspace</Badge>
+	</div>
 
 	<form method="POST" action="?/editWorkspace" class="mt-4">
 		<div class="mb-4">
@@ -115,6 +117,42 @@
 	</form>
 
 	<h2 class="mt-8 text-left text-2xl font-bold">Manage Current Users</h2>
+	<Dialog.Root>
+		<Dialog.Trigger>
+			<Button on:click={() => (addUserToWorkspaceDialog = true)} variant="outline" class="mt-4">
+				+ Add Users to {workspace?.name}
+			</Button>
+		</Dialog.Trigger>
+		<Dialog.Overlay />
+		<Dialog.Content>
+			<Dialog.Title>Available Users</Dialog.Title>
+			<Table.Root>
+				<Table.Header>
+					<Table.Row>
+						<Table.Head class="w-[100px] p-4">ID</Table.Head>
+						<Table.Head class="p-4">Name</Table.Head>
+						<Table.Head class="p-4"></Table.Head>
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
+					{#each usersNotInWorkspace as user}
+						<Table.Row>
+							<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
+							<Table.Cell class="p-4">{user.first_name + ' ' + user.last_name}</Table.Cell>
+							<Table.Cell class="p-4">
+								<Button
+									variant="outline"
+									onclick={() => {
+										handleAddUserToWorkspace(user.id);
+									}}>Add</Button
+								>
+							</Table.Cell>
+						</Table.Row>
+					{/each}
+				</Table.Body>
+			</Table.Root>
+		</Dialog.Content>
+	</Dialog.Root>
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 		<Table.Root>
@@ -169,43 +207,6 @@
 			</Table.Body>
 		</Table.Root>
 	</div>
-
-	<Dialog.Root>
-		<Dialog.Trigger>
-			<Button on:click={() => (addUserToWorkspaceDialog = true)} variant="outline" class="mt-4">
-				Add Users to {workspace?.name}
-			</Button>
-		</Dialog.Trigger>
-		<Dialog.Overlay />
-		<Dialog.Content>
-			<Dialog.Title>Available Users</Dialog.Title>
-			<Table.Root>
-				<Table.Header>
-					<Table.Row>
-						<Table.Head class="w-[100px] p-4">ID</Table.Head>
-						<Table.Head class="p-4">Name</Table.Head>
-						<Table.Head class="p-4"></Table.Head>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{#each usersNotInWorkspace as user}
-						<Table.Row>
-							<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
-							<Table.Cell class="p-4">{user.first_name + ' ' + user.last_name}</Table.Cell>
-							<Table.Cell class="p-4">
-								<Button
-									variant="outline"
-									onclick={() => {
-										handleAddUserToWorkspace(user.id);
-									}}>Add</Button
-								>
-							</Table.Cell>
-						</Table.Row>
-					{/each}
-				</Table.Body>
-			</Table.Root>
-		</Dialog.Content>
-	</Dialog.Root>
 
 	<Dialog.Root>
 		<Dialog.Trigger>

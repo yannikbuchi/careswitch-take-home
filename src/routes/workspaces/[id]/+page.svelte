@@ -1,16 +1,17 @@
 <script lang="ts">
 	import * as Table from '$lib/components/ui/table';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Dialog from '$lib/components/ui/dialog';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 	let { data } = $props();
 	let workspace = $state(data.workspace);
 	let users = $state(data.users ?? []);
-
-	let dialogOpen = $state(false);
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<h1 class="text-left text-4xl font-bold">{workspace?.name}</h1>
+	<div class="flex items-center space-x-2">
+		<h1 class="text-left text-4xl font-bold">{workspace?.name}</h1>
+		<Badge class="ml-2 mt-2">Workspace</Badge>
+	</div>
 	<Button href="/workspaces/{workspace?.id}/edit" class="mt-4">Edit Workspace</Button>
 	<p class="mt-4 text-left text-lg">{workspace?.description}</p>
 
