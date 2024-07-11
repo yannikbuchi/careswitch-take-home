@@ -1,6 +1,7 @@
 <script>
 	import * as Table from '$lib/components/ui/table';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	let { data } = $props();
 	let user = data.user;
@@ -10,8 +11,8 @@
 
 <div class="container mx-auto px-4 py-8">
 	<h1 class="text-left text-4xl font-bold">{full_name}</h1>
-
-	<h1 class="mt-8 text-left text-4xl font-bold">Workspaces</h1>
+	<Button href="/users/{user?.id}/edit" class="mt-4">Edit User</Button>
+	<h2 class="mt-8 text-left text-4xl font-bold">Workspaces</h2>
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 		<Table.Root>

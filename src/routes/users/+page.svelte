@@ -60,19 +60,27 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each data.users as user (user.id)}
-					<Table.Row>
-						<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
-						<Table.Cell class="p-4">
-							<Button.Root variant="link" href="/users/{user.id}">
-								{user.first_name + ' ' + user.last_name}
-							</Button.Root>
-						</Table.Cell>
-						<Table.Cell class="p-4">
-							<a href="/users/{user.id}/edit" class="text-blue-500 hover:underline">Edit</a>
-						</Table.Cell>
-					</Table.Row>
-				{/each}
+				{#if data.users.length === 0}
+					<tr>
+						<td colspan="3" class="p-4 text-center text-gray-500"
+							>There are currently no users in this workspace.</td
+						>
+					</tr>
+				{:else}
+					{#each data.users as user (user.id)}
+						<Table.Row>
+							<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
+							<Table.Cell class="p-4">
+								<Button.Root variant="link" href="/users/{user.id}">
+									{user.first_name + ' ' + user.last_name}
+								</Button.Root>
+							</Table.Cell>
+							<Table.Cell class="p-4">
+								<a href="/users/{user.id}/edit" class="text-blue-500 hover:underline">Edit</a>
+							</Table.Cell>
+						</Table.Row>
+					{/each}
+				{/if}
 			</Table.Body>
 		</Table.Root>
 	</div>

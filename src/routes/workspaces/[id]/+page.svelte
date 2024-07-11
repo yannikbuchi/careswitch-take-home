@@ -14,27 +14,29 @@
 	<Button href="/workspaces/{workspace?.id}/edit" class="mt-4">Edit Workspace</Button>
 	<p class="mt-4 text-left text-lg">{workspace?.description}</p>
 
-	<h1 class="mt-8 text-left text-4xl font-bold">Current Users</h1>
+	<h3 class="mt-8 text-left text-3xl font-bold">Current Users</h3>
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 		<Table.Root>
-			<Table.Header class="bg-gray-100">
-				<Table.Row>
-					<Table.Head class="w-[100px] p-4">ID</Table.Head>
-					<Table.Head class="p-4">Name</Table.Head>
-				</Table.Row>
-			</Table.Header>
 			<Table.Body>
-				{#each users as user}
-					<Table.Row>
-						<Table.Cell class="p-4 font-medium">{user.user.id}</Table.Cell>
-						<Table.Cell class="p-4">
-							<Button variant="link" href="/users/{user.user.id}">
-								{user.user.first_name + ' ' + user.user.last_name}
-							</Button>
-						</Table.Cell>
-					</Table.Row>
-				{/each}
+				{#if users.length === 0}
+					<tr>
+						<td colspan="2" class="p-4 text-center text-gray-500"
+							>There are currently no users in this workspace.</td
+						>
+					</tr>
+				{:else}
+					{#each users as user}
+						<Table.Row>
+							<Table.Cell class="p-4 font-medium">{user.user.id}</Table.Cell>
+							<Table.Cell class="p-4">
+								<Button variant="link" href="/users/{user.user.id}">
+									{user.user.first_name + ' ' + user.user.last_name}
+								</Button>
+							</Table.Cell>
+						</Table.Row>
+					{/each}
+				{/if}
 			</Table.Body>
 		</Table.Root>
 	</div>

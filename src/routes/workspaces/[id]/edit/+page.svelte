@@ -5,6 +5,7 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { z } from 'zod';
 	import * as Table from '$lib/components/ui/table';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 	let { data } = $props();
 	let users = $state(data.users ?? []);
 	let usersNotInWorkspace = $state(data.usersNotInWorkspace ?? []);
@@ -86,7 +87,8 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<h1 class="text-left text-4xl font-bold">{workspace?.name} > Edit</h1>
+	<h1 class="text-left text-4xl font-bold">{workspace?.name} (Editing)</h1>
+	<Badge>Workspace</Badge>
 
 	<form method="POST" action="?/editWorkspace" class="mt-4">
 		<div class="mb-4">
@@ -220,7 +222,7 @@
 				</Dialog.Description>
 				<Dialog.Footer class="sm:justify-start">
 					<Dialog.Close asChild>
-						<Button type="submit" variant="destructive">Delete</Button>
+						<Button type="submit" variant="destructive" class="mt-4">Delete</Button>
 					</Dialog.Close>
 				</Dialog.Footer>
 			</form>
