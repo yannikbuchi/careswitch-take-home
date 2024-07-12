@@ -5,7 +5,11 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { addUserFormSchema } from './schema';
 
 export const load = async () => {
-	const users = await prisma.user.findMany();
+	const users = await prisma.user.findMany({
+		orderBy: {
+			first_name: 'asc'
+		}
+	});
 
 	return { users, form: await superValidate(zod(addUserFormSchema)) };
 };

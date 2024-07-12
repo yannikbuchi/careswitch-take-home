@@ -30,6 +30,9 @@ export const load = async ({ params }) => {
 			id: {
 				in: usersIdInWorkspace
 			}
+		},
+		orderBy: {
+			first_name: 'asc'
 		}
 	});
 
@@ -38,6 +41,9 @@ export const load = async ({ params }) => {
 			id: {
 				notIn: usersIdInWorkspace
 			}
+		},
+		orderBy: {
+			first_name: 'asc'
 		}
 	});
 

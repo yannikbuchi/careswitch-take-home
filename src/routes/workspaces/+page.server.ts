@@ -5,7 +5,11 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { addWorkspaceFormSchema } from './schema';
 
 export const load = async () => {
-	const workspaces = await prisma.workspace.findMany();
+	const workspaces = await prisma.workspace.findMany({
+		orderBy: {
+			name: 'asc'
+		}
+	});
 
 	return { workspaces, form: await superValidate(zod(addWorkspaceFormSchema)) };
 };
