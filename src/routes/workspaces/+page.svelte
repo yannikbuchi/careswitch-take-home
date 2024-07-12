@@ -11,7 +11,7 @@
 <div class="container mx-auto px-4 py-8">
 	<div class="mb-5 flex w-full items-center justify-between">
 		<div class="flex space-x-2">
-			<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
+			<img src="/workspaces.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
 			<h1 class="text-left text-4xl font-bold">Workspaces</h1>
 		</div>
 		<div>

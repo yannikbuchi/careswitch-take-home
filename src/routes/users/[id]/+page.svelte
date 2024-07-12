@@ -11,13 +11,15 @@
 
 <div class="container mx-auto px-4 py-8">
 	<div class="flex items-center justify-between">
-		<div class="flex items-center space-x-2">
+		<div class="flex space-x-2">
+			<img src="/user.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
 			<h1 class="text-left text-4xl font-bold">{full_name}</h1>
-			<Badge class="ml-2 mt-2 bg-gray-100 text-gray-800">User</Badge>
 		</div>
-		<Button href="/users/{user?.id}/edit" class="ml-4 mt-2">Edit User</Button>
+		<div>
+			<Button href="/users/{user?.id}/edit" class="ml-4 mt-2">Edit User</Button>
+		</div>
 	</div>
-	<h2 class="mt-8 text-left text-3xl font-bold">Workspaces</h2>
+	<h2 class="mt-8 text-left text-3xl font-bold">Current Workspaces</h2>
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 		<Table.Root>
