@@ -11,6 +11,7 @@
 	let workspaces = $state(data.workspaces ?? []);
 	let workspacesNotInUser = $state(data.workspacesNotInUser ?? []);
 	let addUserToWorkspaceDialog = $state(false);
+	let removeUserFromWorkspaceDialog = $state(false);
 
 	const userSchema = z.object({
 		first_name: z.string().min(1, 'First name is required'),
@@ -163,6 +164,7 @@
 					<Table.Head class="p-4">Name</Table.Head>
 					<Table.Head class="p-4">Description</Table.Head>
 					<Table.Head class="w-[100px] p-4">ID</Table.Head>
+					<Table.Head class="w-[100px] p-4"></Table.Head>
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
@@ -177,6 +179,34 @@
 						<Table.Cell class="p-4 font-medium"
 							><Badge class="bg-blue-400">{workspace.workspace.id}</Badge></Table.Cell
 						>
+						<Table.Cell class="p-4">
+							<Dialog.Root>
+								<Dialog.Trigger>
+									<Button on:click={() => (removeUserFromWorkspaceDialog = true)} variant="outline">
+										Remove
+									</Button>
+								</Dialog.Trigger>
+								<Dialog.Overlay />
+								<Dialog.Content>
+									<Dialog.Title>Confirm Delete User</Dialog.Title>
+									<Dialog.Description>
+										Are you sure you want to remove {user?.first_name + ' ' + user?.last_name} from {workspace
+											.workspace.description}?
+									</Dialog.Description>
+									<Dialog.Footer class="sm:justify-start">
+										<Dialog.Close asChild>
+											<Button
+												type="button"
+												variant="outline"
+												onclick={() => {
+													handleRemoveWorkspace(workspace.workspaceId);
+												}}>Remove</Button
+											>
+										</Dialog.Close>
+									</Dialog.Footer>
+								</Dialog.Content>
+							</Dialog.Root>
+						</Table.Cell>
 					</Table.Row>
 				{/each}
 			</Table.Body>
