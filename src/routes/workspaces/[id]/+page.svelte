@@ -14,7 +14,7 @@
 			<h1 class="text-left text-4xl font-bold">{workspace?.name}</h1>
 		</div>
 		<div>
-			<Button href="/workspaces/{workspace?.id}/edit" class="mt-4">Edit Workspace</Button>
+			<Button href="/workspaces/{workspace?.id}/edit" class="mt-4">Manage Workspace</Button>
 		</div>
 	</div>
 	<p class="mt-4 text-left text-lg">{workspace?.description}</p>

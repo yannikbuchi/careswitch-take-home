@@ -16,7 +16,7 @@
 			<h1 class="text-left text-4xl font-bold">{full_name}</h1>
 		</div>
 		<div>
-			<Button href="/users/{user?.id}/edit" class="ml-4 mt-2">Edit User</Button>
+			<Button href="/users/{user?.id}/edit" class="ml-4 mt-2">Manage User</Button>
 		</div>
 	</div>
 	<h2 class="mt-8 text-left text-3xl font-bold">Current Workspaces</h2>
