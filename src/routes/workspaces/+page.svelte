@@ -2,12 +2,6 @@
 	import * as Table from '$lib/components/ui/table';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Button from '$lib/components/ui/button';
-	import { superForm } from 'sveltekit-superforms/client';
-	import * as Form from '$lib/components/ui/form';
-	import { enhance } from '$app/forms';
-	import Input from '$lib/components/ui/input/input.svelte';
-	import { zod } from 'sveltekit-superforms/adapters';
-	import { z } from 'zod';
 	import WorkspaceForm from './workspace-form.svelte';
 
 	let { data } = $props();
