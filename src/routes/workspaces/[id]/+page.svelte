@@ -45,6 +45,7 @@
 			<Table.Root>
 				<Table.Header class="bg-gray-100">
 					<Table.Row>
+						<Table.Head></Table.Head>
 						<Table.Head class="p-4">Name</Table.Head>
 						<Table.Head class="w-[100px] p-4">ID</Table.Head>
 					</Table.Row>
@@ -52,10 +53,13 @@
 				<Table.Body>
 					{#each usersInWorkspace as user}
 						<Table.Row>
-							<Table.Cell class="p-4">
+							<Table.Cell>
 								<Button variant="link" href="/users/{user.id}">
-									{user.first_name + ' ' + user.last_name}
+									<img src="/open.svg" alt="open user" class="mt-2 h-5 w-5" />
 								</Button>
+							</Table.Cell>
+							<Table.Cell class="p-4">
+								{user.first_name + ' ' + user.last_name}
 							</Table.Cell>
 							<Table.Cell class="p-4 font-medium"
 								><Badge class="bg-blue-400">{user.id}</Badge></Table.Cell

@@ -171,7 +171,7 @@
 		</Dialog.Trigger>
 		<Dialog.Overlay />
 		<Dialog.Content>
-			<Dialog.Title>Add Users</Dialog.Title>
+			<Dialog.Title>Add Workspace</Dialog.Title>
 			<Table.Root>
 				<Table.Header>
 					<Table.Row>
@@ -206,6 +206,7 @@
 			<Table.Root>
 				<Table.Header class="bg-gray-100">
 					<Table.Row>
+						<Table.Head></Table.Head>
 						<Table.Head class="p-4">Name</Table.Head>
 						<Table.Head class="p-4">Description</Table.Head>
 						<Table.Head class="w-[100px] p-4">ID</Table.Head>
@@ -215,6 +216,11 @@
 				<Table.Body>
 					{#each workspacesInUser as workspace}
 						<Table.Row>
+							<Table.Cell>
+								<Button variant="link" href="/workspaces/{workspace.id}">
+									<img src="/open.svg" alt="open user" class="mt-2 h-5 w-5" />
+								</Button>
+							</Table.Cell>
 							<Table.Cell class="p-4">
 								<Button variant="link" href="/workspaces/{workspace.id}">
 									{workspace.name}
