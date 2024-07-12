@@ -4,11 +4,19 @@
 	import * as Button from '$lib/components/ui/button';
 	import WorkspaceForm from './workspace-form.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 
 	let { data } = $props();
 </script>
 
 <div class="container mx-auto px-4 py-8">
+	<Breadcrumb.Root class="mb-3 p-2">
+		<Breadcrumb.BreadcrumbList>
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/workspaces">Workspaces</Breadcrumb.BreadcrumbLink>
+			</Breadcrumb.BreadcrumbItem>
+		</Breadcrumb.BreadcrumbList>
+	</Breadcrumb.Root>
 	<div class="mb-5 flex w-full items-center justify-between">
 		<div class="flex space-x-2">
 			<img src="/workspaces.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />

@@ -2,6 +2,7 @@
 	import * as Table from '$lib/components/ui/table';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 
 	let { data } = $props();
 	let user = data.user;
@@ -10,6 +11,18 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
+	<Breadcrumb.Root class="mb-3 p-2">
+		<Breadcrumb.BreadcrumbList>
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/users">Users</Breadcrumb.BreadcrumbLink>
+			</Breadcrumb.BreadcrumbItem>
+			<Breadcrumb.BreadcrumbSeparator />
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/users/{user?.id}' ">{full_name}</Breadcrumb.BreadcrumbLink
+				>
+			</Breadcrumb.BreadcrumbItem>
+		</Breadcrumb.BreadcrumbList>
+	</Breadcrumb.Root>
 	<div class="flex items-center justify-between">
 		<div class="flex space-x-2">
 			<img src="/user.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />

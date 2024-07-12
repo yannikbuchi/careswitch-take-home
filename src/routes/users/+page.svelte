@@ -4,12 +4,20 @@
 	import * as Button from '$lib/components/ui/button';
 	import UsersForm from './users-form.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 
 	let { data } = $props();
 	let open = $state(false);
 </script>
 
 <div class="container mx-auto px-4 py-8">
+	<Breadcrumb.Root class="mb-3 p-2">
+		<Breadcrumb.BreadcrumbList>
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/users">Users</Breadcrumb.BreadcrumbLink>
+			</Breadcrumb.BreadcrumbItem>
+		</Breadcrumb.BreadcrumbList>
+	</Breadcrumb.Root>
 	<div class="mb-5 flex w-full items-center justify-between">
 		<div class="flex space-x-2">
 			<img src="/users.svg" alt="Users Icon" class="mt-2 h-7 w-7" />

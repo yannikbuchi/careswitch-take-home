@@ -2,12 +2,27 @@
 	import * as Table from '$lib/components/ui/table';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
+
 	let { data } = $props();
 	let workspace = $state(data.workspace);
 	let usersInWorkspace = $state(data.usersInWorkspace ?? []);
 </script>
 
 <div class="container mx-auto px-4 py-8">
+	<Breadcrumb.Root class="mb-3 p-2">
+		<Breadcrumb.BreadcrumbList>
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/workspaces">Workspaces</Breadcrumb.BreadcrumbLink>
+			</Breadcrumb.BreadcrumbItem>
+			<Breadcrumb.BreadcrumbSeparator />
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/workspaces/{workspace?.id}' "
+					>{workspace?.name}</Breadcrumb.BreadcrumbLink
+				>
+			</Breadcrumb.BreadcrumbItem>
+		</Breadcrumb.BreadcrumbList>
+	</Breadcrumb.Root>
 	<div class="flex items-center justify-between">
 		<div class="flex items-center space-x-2">
 			<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />

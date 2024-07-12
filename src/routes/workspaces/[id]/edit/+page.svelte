@@ -6,7 +6,7 @@
 	import { z } from 'zod';
 	import * as Table from '$lib/components/ui/table';
 	import { goto } from '$app/navigation';
-	import { toast } from 'svelte-sonner';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 
 	let { data } = $props();
 	let usersInWorkspace = $state(data.usersInWorkspace ?? []);
@@ -103,6 +103,25 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
+	<Breadcrumb.Root class="mb-3 p-2">
+		<Breadcrumb.BreadcrumbList>
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/workspaces">Workspaces</Breadcrumb.BreadcrumbLink>
+			</Breadcrumb.BreadcrumbItem>
+			<Breadcrumb.BreadcrumbSeparator />
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/workspaces/{workspace?.id}"
+					>{workspace?.name}</Breadcrumb.BreadcrumbLink
+				>
+			</Breadcrumb.BreadcrumbItem>
+			<Breadcrumb.BreadcrumbSeparator />
+			<Breadcrumb.BreadcrumbItem>
+				<Breadcrumb.BreadcrumbLink href="/workspaces/{workspace?.id}/edit"
+					>Edit</Breadcrumb.BreadcrumbLink
+				>
+			</Breadcrumb.BreadcrumbItem>
+		</Breadcrumb.BreadcrumbList>
+	</Breadcrumb.Root>
 	<div class="flex space-x-2">
 		<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
 		<h1 class="text-left text-4xl font-bold">{workspace?.name} (Editing)</h1>
