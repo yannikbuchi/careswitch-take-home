@@ -32,26 +32,24 @@
 			<Button href="/workspaces/{workspace?.id}/edit" class="mt-4">Manage Workspace</Button>
 		</div>
 	</div>
-	<p class="mt-4 text-left text-lg">{workspace?.description}</p>
+	<p class="text-md ml-5 mt-4 text-left">{workspace?.description}</p>
+	<hr class="my-4" />
 
 	<h3 class="mt-8 text-left text-3xl font-bold">Current Users</h3>
-
-	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
-		<Table.Root>
-			<Table.Header class="bg-gray-100">
-				<Table.Row>
-					<Table.Head class="p-4">Name</Table.Head>
-					<Table.Head class="w-[100px] p-4">ID</Table.Head>
-				</Table.Row>
-			</Table.Header>
-			<Table.Body>
-				{#if usersInWorkspace.length === 0}
+	{#if usersInWorkspace.length === 0}
+		<p class="mt-4 rounded-sm bg-gray-100 p-3 text-center text-slate-400">
+			This workspace does not contain any users. Click 'Manage Workspace' to add some.
+		</p>
+	{:else}
+		<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
+			<Table.Root>
+				<Table.Header class="bg-gray-100">
 					<Table.Row>
-						<Table.Cell class="p-4 text-center text-gray-500"
-							>There are currently no users in this workspace.</Table.Cell
-						>
+						<Table.Head class="p-4">Name</Table.Head>
+						<Table.Head class="w-[100px] p-4">ID</Table.Head>
 					</Table.Row>
-				{:else}
+				</Table.Header>
+				<Table.Body>
 					{#each usersInWorkspace as user}
 						<Table.Row>
 							<Table.Cell class="p-4">
@@ -64,8 +62,8 @@
 							>
 						</Table.Row>
 					{/each}
-				{/if}
-			</Table.Body>
-		</Table.Root>
-	</div>
+				</Table.Body>
+			</Table.Root>
+		</div>
+	{/if}
 </div>

@@ -25,7 +25,7 @@
 		<div>
 			<Dialog.Root>
 				<Dialog.Trigger>
-					<Button.Root class="mt-4 bg-green-700 hover:bg-green-600">+ Add Workspace</Button.Root>
+					<Button.Root variant="outline" class="mt-4">+ Add Workspace</Button.Root>
 				</Dialog.Trigger>
 				<Dialog.Overlay />
 				<Dialog.Content>
@@ -35,6 +35,7 @@
 			</Dialog.Root>
 		</div>
 	</div>
+	<hr class="my-4" />
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 		<Table.Root>

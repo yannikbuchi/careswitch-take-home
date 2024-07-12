@@ -124,9 +124,12 @@
 	</Breadcrumb.Root>
 	<div class="flex space-x-2">
 		<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
-		<h1 class="text-left text-4xl font-bold">{workspace?.name} (Editing)</h1>
+		<h1 class="text-left text-4xl font-bold">
+			{workspace?.name} <span class="text-2xl italic">(Editing)</span>
+		</h1>
 	</div>
-
+	<hr class="my-4" />
+	<h2 class="text-1xl mt-4 text-left font-bold">Update Attributes</h2>
 	<form method="POST" action="?/editWorkspace" class="mt-4">
 		<div class="mb-4 w-[300px]">
 			<label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -151,8 +154,8 @@
 		<Button href="/workspaces/{workspace?.id}" variant="outline">Cancel</Button>
 		<Button type="submit" class="mt-4">Save Changes</Button>
 	</form>
-
-	<h2 class="mt-8 text-left text-2xl font-bold">Manage Current Users</h2>
+	<hr class="mt-4" />
+	<h2 class="mt-4 text-left text-2xl font-bold">Manage Current Users</h2>
 	<Dialog.Root>
 		<Dialog.Trigger>
 			<Button variant="outline" class="mt-4">
@@ -163,7 +166,9 @@
 		<Dialog.Content>
 			<Dialog.Title>Available Users</Dialog.Title>
 			{#if usersNotInWorkspace.length === 0}
-				<p>There are currently no users to add to this workspace.</p>
+				<p class="mt-4 rounded-sm bg-gray-100 p-3 text-center text-slate-400">
+					There are no users to add to this workspace.
+				</p>
 			{:else}
 				<Table.Root>
 					<Table.Header>
@@ -192,7 +197,9 @@
 		</Dialog.Content>
 	</Dialog.Root>
 	{#if usersInWorkspace.length === 0}
-		<p>There are currently no users in this workspace.</p>
+		<p class="mt-4 rounded-sm bg-gray-100 p-3 text-center text-slate-400">
+			There are currently no users in this workspace.
+		</p>
 	{:else}
 		<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 			<Table.Root>
@@ -228,7 +235,7 @@
 											<Dialog.Close>
 												<Button
 													type="button"
-													variant="outline"
+													variant="destructive"
 													onclick={() => {
 														handleRemoveUserFromWorkspace(user.id);
 													}}>Remove</Button

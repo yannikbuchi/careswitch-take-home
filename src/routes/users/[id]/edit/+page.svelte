@@ -104,10 +104,39 @@
 			</Breadcrumb.BreadcrumbItem>
 		</Breadcrumb.BreadcrumbList>
 	</Breadcrumb.Root>
-	<div class="flex space-x-2">
-		<img src="/user.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
-		<h1 class="text-left text-4xl font-bold">{full_name} (Editing)</h1>
+	<div class="mb-5 flex w-full items-center justify-between">
+		<div class="flex space-x-2">
+			<img src="/user.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
+			<h1 class="text-left text-4xl font-bold">
+				{full_name} <span class="text-2xl italic">(Editing)</span>
+			</h1>
+		</div>
+		<div>
+			<Dialog.Root>
+				<Dialog.Trigger>
+					<Button on:click={() => (dialogOpen = true)} variant="destructive" class="mt-4"
+						>Delete User</Button
+					>
+				</Dialog.Trigger>
+				<Dialog.Overlay />
+				<Dialog.Content>
+					<Dialog.Title>Confirm Delete User</Dialog.Title>
+					<form method="POST" action="?/deleteUser">
+						<Dialog.Description>
+							Are you sure you want to delete this user? This action is permanent.
+						</Dialog.Description>
+						<Dialog.Footer class="sm:justify-start">
+							<Dialog.Close asChild>
+								<Button type="submit" variant="destructive" class="mt-4">Delete</Button>
+							</Dialog.Close>
+						</Dialog.Footer>
+					</form>
+				</Dialog.Content>
+			</Dialog.Root>
+		</div>
 	</div>
+
+	<hr class="mt-4" />
 
 	<form method="POST" action="?/editUser" class="mt-4">
 		<div class="mb-4 w-[300px]">
@@ -133,21 +162,19 @@
 		<Button href="/users/{user?.id}" variant="outline">Cancel</Button>
 		<Button type="submit" class="mt-4">Save Changes</Button>
 	</form>
+	<hr class="mt-4" />
 
-	<h2 class="mt-8 text-left text-2xl font-bold">Manage Current Workspaces</h2>
+	<h2 class="mt-4 text-left text-2xl font-bold">Manage Current Workspaces</h2>
 	<Dialog.Root>
 		<Dialog.Trigger>
-			<Button variant="outline" class="mt-4" on:click={() => (addUserToWorkspaceDialog = true)}
-				>+ Add workspace</Button
-			>
+			<Button variant="outline" class="mt-4">+ Add workspace</Button>
 		</Dialog.Trigger>
 		<Dialog.Overlay />
 		<Dialog.Content>
-			<Dialog.Title>Available Users</Dialog.Title>
+			<Dialog.Title>Add Users</Dialog.Title>
 			<Table.Root>
 				<Table.Header>
 					<Table.Row>
-						<Table.Head class="w-[100px] p-4">ID</Table.Head>
 						<Table.Head class="p-4">Name</Table.Head>
 						<Table.Head class="p-4"></Table.Head>
 					</Table.Row>
@@ -155,7 +182,6 @@
 				<Table.Body>
 					{#each workspacesNotInUser as workspace}
 						<Table.Row>
-							<Table.Cell class="p-4 font-medium">{workspace.id}</Table.Cell>
 							<Table.Cell class="p-4">{workspace.name}</Table.Cell>
 							<Table.Cell class="p-4">
 								<Button
@@ -171,79 +197,63 @@
 			</Table.Root>
 		</Dialog.Content>
 	</Dialog.Root>
-
-	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
-		<Table.Root>
-			<Table.Header class="bg-gray-100">
-				<Table.Row>
-					<Table.Head class="p-4">Name</Table.Head>
-					<Table.Head class="p-4">Description</Table.Head>
-					<Table.Head class="w-[100px] p-4">ID</Table.Head>
-					<Table.Head class="w-[100px] p-4"></Table.Head>
-				</Table.Row>
-			</Table.Header>
-			<Table.Body>
-				{#each workspacesInUser as workspace}
+	{#if workspacesInUser.length === 0}
+		<p class="mt-4 rounded-sm bg-gray-100 p-3 text-center text-slate-400">
+			This user does is not currently subscribed to any workspaces.
+		</p>
+	{:else}
+		<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
+			<Table.Root>
+				<Table.Header class="bg-gray-100">
 					<Table.Row>
-						<Table.Cell class="p-4">
-							<Button variant="link" href="/workspaces/{workspace.id}">
-								{workspace.name}
-							</Button>
-						</Table.Cell>
-						<Table.Cell class="p-4">{workspace.description}</Table.Cell>
-						<Table.Cell class="p-4 font-medium"
-							><Badge class="bg-blue-400">{workspace.id}</Badge></Table.Cell
-						>
-						<Table.Cell class="p-4">
-							<Dialog.Root>
-								<Dialog.Trigger>
-									<Button variant="outline">Remove</Button>
-								</Dialog.Trigger>
-								<Dialog.Overlay />
-								<Dialog.Content>
-									<Dialog.Title>Confirm Delete User</Dialog.Title>
-									<Dialog.Description>
-										Are you sure you want to remove {user?.first_name + ' ' + user?.last_name} from {workspace.description}?
-									</Dialog.Description>
-									<Dialog.Footer class="sm:justify-start">
-										<Dialog.Close>
-											<Button
-												type="button"
-												variant="outline"
-												onclick={() => {
-													handleRemoveUserFromWorkspace(workspace.id);
-												}}>Remove</Button
-											>
-										</Dialog.Close>
-									</Dialog.Footer>
-								</Dialog.Content>
-							</Dialog.Root>
-						</Table.Cell>
+						<Table.Head class="p-4">Name</Table.Head>
+						<Table.Head class="p-4">Description</Table.Head>
+						<Table.Head class="w-[100px] p-4">ID</Table.Head>
+						<Table.Head class="w-[100px] p-4"></Table.Head>
 					</Table.Row>
-				{/each}
-			</Table.Body>
-		</Table.Root>
-	</div>
-
-	<Dialog.Root>
-		<Dialog.Trigger>
-			<Button on:click={() => (dialogOpen = true)} variant="destructive" class="mt-4"
-				>Delete User</Button
-			>
-		</Dialog.Trigger>
-		<Dialog.Overlay />
-		<Dialog.Content>
-			<Dialog.Title>Confirm Delete User</Dialog.Title>
-			<form method="POST" action="?/deleteUser">
-				<Dialog.Description>
-					Are you sure you want to delete this user? This action is permanent.
-				</Dialog.Description>
-				<Dialog.Footer class="sm:justify-start">
-					<Dialog.Close asChild>
-						<Button type="submit" variant="destructive" class="mt-4">Delete</Button>
-					</Dialog.Close>
-				</Dialog.Footer>
-			</form>
-		</Dialog.Content>
-	</Dialog.Root>
+				</Table.Header>
+				<Table.Body>
+					{#each workspacesInUser as workspace}
+						<Table.Row>
+							<Table.Cell class="p-4">
+								<Button variant="link" href="/workspaces/{workspace.id}">
+									{workspace.name}
+								</Button>
+							</Table.Cell>
+							<Table.Cell class="p-4">{workspace.description}</Table.Cell>
+							<Table.Cell class="p-4 font-medium"
+								><Badge class="bg-blue-400">{workspace.id}</Badge></Table.Cell
+							>
+							<Table.Cell class="p-4">
+								<Dialog.Root>
+									<Dialog.Trigger>
+										<Button variant="outline">Remove</Button>
+									</Dialog.Trigger>
+									<Dialog.Overlay />
+									<Dialog.Content>
+										<Dialog.Title>Confirm Delete User</Dialog.Title>
+										<Dialog.Description>
+											Are you sure you want to remove {user?.first_name + ' ' + user?.last_name} from
+											{workspace.description}?
+										</Dialog.Description>
+										<Dialog.Footer class="sm:justify-start">
+											<Dialog.Close>
+												<Button
+													type="button"
+													variant="destructive"
+													onclick={() => {
+														handleRemoveUserFromWorkspace(workspace.id);
+													}}>Remove</Button
+												>
+											</Dialog.Close>
+										</Dialog.Footer>
+									</Dialog.Content>
+								</Dialog.Root>
+							</Table.Cell>
+						</Table.Row>
+					{/each}
+				</Table.Body>
+			</Table.Root>
+		</div>
+	{/if}
 </div>
