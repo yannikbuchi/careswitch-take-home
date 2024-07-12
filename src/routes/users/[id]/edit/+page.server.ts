@@ -41,7 +41,16 @@ export const actions: Actions = {
 	deleteUser: async ({ params }) => {
 		let deleteSuccess = false;
 
+		if (typeof params.id !== 'string') {
+			return fail(400, { error: 'Invalid workspace Id' });
+		}
+
 		try {
+			await prisma.usersOnWorkspaces.deleteMany({
+				where: {
+					userId: params.id
+				}
+			});
 			await prisma.user.delete({
 				where: {
 					id: params.id
