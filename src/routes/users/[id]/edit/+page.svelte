@@ -4,9 +4,13 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { z } from 'zod';
+	import * as Table from '$lib/components/ui/table';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	let { data } = $props();
+	let workspaces = $state(data.workspaces ?? []);
+	let workspacesNotInUser = $state(data.workspacesNotInUser ?? []);
+	let addUserToWorkspaceDialog = $state(false);
 
 	const userSchema = z.object({
 		first_name: z.string().min(1, 'First name is required'),
@@ -23,6 +27,60 @@
 		}
 	);
 
+	const handleRemoveWorkspace = async (workspaceId: string) => {
+		if (!user?.id) {
+			console.error('User ID is not defined.');
+			return;
+		}
+
+		const form = new FormData();
+		form.append('workspaceId', workspaceId);
+		form.append('userId', user?.id);
+
+		const response = await fetch('?/removeUserFromWorkspace', {
+			method: 'POST',
+			body: form
+		});
+
+		if (response.ok) {
+			const addedWorkspace = workspacesNotInUser.find((workspace) => workspace.id === workspaceId);
+			if (addedWorkspace) {
+				workspaces.push({
+					workspace: addedWorkspace,
+					workspaceId: workspaceId,
+					userId: user.id
+				});
+				workspacesNotInUser = workspacesNotInUser.filter(
+					(workspace) => workspace.id !== workspaceId
+				);
+			}
+		} else {
+			console.error('Failed to remove user from workspace');
+		}
+	};
+
+	const handleAddUsersToWorkspace = async (workspaceId: string) => {
+		if (!user?.id) {
+			console.error('User ID is not defined.');
+			return;
+		}
+
+		const form = new FormData();
+		form.append('userId', user.id);
+		form.append('workspaceId', workspaceId);
+
+		const response = await fetch('?/addUserToWorkspace', {
+			method: 'POST',
+			body: form
+		});
+
+		if (response.ok) {
+			workspaces = workspaces.filter((workspace) => workspace.workspaceId !== workspaceId);
+		} else {
+			console.error('Failed to remove user from workspace');
+		}
+	};
+
 	let user = data.user;
 	let full_name = user?.first_name + ' ' + user?.last_name;
 
@@ -30,9 +88,9 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<div class="flex items-center space-x-2">
+	<div class="flex space-x-2">
+		<img src="/user.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
 		<h1 class="text-left text-4xl font-bold">{full_name} (Editing)</h1>
-		<Badge class="ml-2 mt-2">User</Badge>
 	</div>
 
 	<form method="POST" action="?/editUser" class="mt-4">
@@ -59,6 +117,71 @@
 		<Button href="/users" variant="outline">Cancel</Button>
 		<Button type="submit" class="mt-4">Save Changes</Button>
 	</form>
+
+	<h2 class="mt-8 text-left text-2xl font-bold">Manage Current Workspaces</h2>
+	<Dialog.Root>
+		<Dialog.Trigger>
+			<Button variant="outline" class="mt-4" on:click={() => (addUserToWorkspaceDialog = true)}
+				>+ Add workspace</Button
+			>
+		</Dialog.Trigger>
+		<Dialog.Overlay />
+		<Dialog.Content>
+			<Dialog.Title>Available Users</Dialog.Title>
+			<Table.Root>
+				<Table.Header>
+					<Table.Row>
+						<Table.Head class="w-[100px] p-4">ID</Table.Head>
+						<Table.Head class="p-4">Name</Table.Head>
+						<Table.Head class="p-4"></Table.Head>
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
+					{#each workspacesNotInUser as workspace}
+						<Table.Row>
+							<Table.Cell class="p-4 font-medium">{workspace.id}</Table.Cell>
+							<Table.Cell class="p-4">{workspace.name}</Table.Cell>
+							<Table.Cell class="p-4">
+								<Button
+									variant="outline"
+									onclick={() => {
+										handleAddUsersToWorkspace(workspace.id);
+									}}>Add</Button
+								>
+							</Table.Cell>
+						</Table.Row>
+					{/each}
+				</Table.Body>
+			</Table.Root>
+		</Dialog.Content>
+	</Dialog.Root>
+
+	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
+		<Table.Root>
+			<Table.Header class="bg-gray-100">
+				<Table.Row>
+					<Table.Head class="p-4">Name</Table.Head>
+					<Table.Head class="p-4">Description</Table.Head>
+					<Table.Head class="w-[100px] p-4">ID</Table.Head>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				{#each workspaces as workspace}
+					<Table.Row>
+						<Table.Cell class="p-4">
+							<Button variant="link" href="/workspaces/{workspace.workspace.id}">
+								{workspace.workspace.name}
+							</Button>
+						</Table.Cell>
+						<Table.Cell class="p-4">{workspace.workspace.description}</Table.Cell>
+						<Table.Cell class="p-4 font-medium"
+							><Badge class="bg-blue-400">{workspace.workspace.id}</Badge></Table.Cell
+						>
+					</Table.Row>
+				{/each}
+			</Table.Body>
+		</Table.Root>
+	</div>
 
 	<Dialog.Root>
 		<Dialog.Trigger>

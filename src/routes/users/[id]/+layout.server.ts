@@ -16,6 +16,16 @@ export const load = async ({ params }) => {
 		}
 	});
 
+	const workspacesInUser = workspaces.map((uow) => uow.workspaceId);
+
+	const workspacesNotInUser = await prisma.workspace.findMany({
+		where: {
+			id: {
+				notIn: workspacesInUser
+			}
+		}
+	});
+
 	if (!user) {
 		return {
 			status: 404,
@@ -23,5 +33,5 @@ export const load = async ({ params }) => {
 		};
 	}
 
-	return { user, workspaces };
+	return { user, workspaces, workspacesNotInUser };
 };

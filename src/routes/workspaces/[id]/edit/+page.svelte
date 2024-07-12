@@ -5,7 +5,7 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { z } from 'zod';
 	import * as Table from '$lib/components/ui/table';
-	import Badge from '$lib/components/ui/badge/badge.svelte';
+
 	let { data } = $props();
 	let users = $state(data.users ?? []);
 	let usersNotInWorkspace = $state(data.usersNotInWorkspace ?? []);
@@ -87,22 +87,20 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<div class="flex items-center space-x-2">
+	<div class="flex space-x-2">
+		<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
 		<h1 class="text-left text-4xl font-bold">{workspace?.name} (Editing)</h1>
-		<Badge class="ml-2 mt-1 bg-green-100 text-green-800 hover:bg-green-200 hover:text-green-900"
-			>Workspace</Badge
-		>
 	</div>
 
 	<form method="POST" action="?/editWorkspace" class="mt-4">
-		<div class="mb-4">
+		<div class="mb-4 w-[300px]">
 			<label for="name" class="block text-sm font-medium text-gray-700">Name</label>
 			<input
 				id="name"
 				name="name"
 				bind:value={$form.name}
 				type="text"
-				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+				class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 p-2.5 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 			/>
 		</div>
 		<div class="mb-4">
@@ -112,9 +110,10 @@
 				name="description"
 				bind:value={$form.description}
 				type="text"
-				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+				class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 p-2.5 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 			/>
 		</div>
+		<Button href="/workspaces" variant="outline">Cancel</Button>
 		<Button type="submit" class="mt-4">Save Changes</Button>
 	</form>
 

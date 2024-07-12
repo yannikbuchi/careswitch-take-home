@@ -28,7 +28,6 @@
 					<Table.Head class="p-4">Name</Table.Head>
 					<Table.Head class="p-4">Description</Table.Head>
 					<Table.Head class="w-[100px] p-4">ID</Table.Head>
-					<Table.Head class="p-4"></Table.Head>
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
@@ -43,9 +42,6 @@
 						<Table.Cell class="p-4 font-medium"
 							><Badge class="bg-blue-400">{workspace.workspace.id}</Badge></Table.Cell
 						>
-						<Table.Cell class="p-4">
-							<Button variant="outline">Remove</Button>
-						</Table.Cell>
 					</Table.Row>
 				{/each}
 			</Table.Body>

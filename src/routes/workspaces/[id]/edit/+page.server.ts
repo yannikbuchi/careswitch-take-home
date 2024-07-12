@@ -6,8 +6,8 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
 
 const workspaceSchema = z.object({
-	name: z.string().min(1, 'First name is required'),
-	description: z.string().min(1, 'Last name is required')
+	name: z.string().min(1, 'Name is required'),
+	description: z.string().min(1, 'Description is required')
 });
 
 export const load = async ({ params }) => {
