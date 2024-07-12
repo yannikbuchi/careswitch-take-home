@@ -11,7 +11,6 @@
 	let workspacesInUser = $state(data.workspacesInUser ?? []);
 	let workspacesNotInUser = $state(data.workspacesNotInUser ?? []);
 	let addUserToWorkspaceDialog = $state(false);
-	let removeUserFromWorkspaceDialog = $state(false);
 
 	const userSchema = z.object({
 		first_name: z.string().min(1, 'First name is required'),
@@ -71,8 +70,12 @@
 
 		if (response.ok) {
 			const addedWorkspace = workspacesNotInUser.find((workspace) => workspace.id === workspaceId);
-			workspacesInUser = [...workspacesInUser];
-			workspacesNotInUser = workspacesNotInUser.filter((workspace) => workspace.id !== workspaceId);
+			if (addedWorkspace) {
+				workspacesInUser = [...workspacesInUser, addedWorkspace];
+				workspacesNotInUser = workspacesNotInUser.filter(
+					(workspace) => workspace.id !== workspaceId
+				);
+			}
 		} else {
 			console.error('Failed to remove user from workspace');
 		}
