@@ -4,7 +4,7 @@
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	let { data } = $props();
 	let workspace = $state(data.workspace);
-	let users = $state(data.users ?? []);
+	let usersInWorkspace = $state(data.usersInWorkspace ?? []);
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -30,22 +30,22 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#if users.length === 0}
-					<tr>
-						<td colspan="2" class="p-4 text-center text-gray-500"
-							>There are currently no users in this workspace.</td
+				{#if usersInWorkspace.length === 0}
+					<Table.Row>
+						<Table.Cell class="p-4 text-center text-gray-500"
+							>There are currently no users in this workspace.</Table.Cell
 						>
-					</tr>
+					</Table.Row>
 				{:else}
-					{#each users as user}
+					{#each usersInWorkspace as user}
 						<Table.Row>
 							<Table.Cell class="p-4">
-								<Button variant="link" href="/users/{user.user.id}">
-									{user.user.first_name + ' ' + user.user.last_name}
+								<Button variant="link" href="/users/{user.id}">
+									{user.first_name + ' ' + user.last_name}
 								</Button>
 							</Table.Cell>
 							<Table.Cell class="p-4 font-medium"
-								><Badge class="bg-blue-400">{user.user.id}</Badge></Table.Cell
+								><Badge class="bg-blue-400">{user.id}</Badge></Table.Cell
 							>
 						</Table.Row>
 					{/each}
