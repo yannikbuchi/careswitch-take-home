@@ -5,7 +5,7 @@
 
 	let { data } = $props();
 	let user = data.user;
-	let workspaces = $state(data.workspaces ?? []);
+	let workspaces = $state(data.workspacesInUser ?? []);
 	let full_name = user?.first_name + ' ' + user?.last_name;
 </script>
 
@@ -34,13 +34,13 @@
 				{#each workspaces as workspace}
 					<Table.Row>
 						<Table.Cell class="p-4">
-							<Button variant="link" href="/workspaces/{workspace.workspace.id}">
-								{workspace.workspace.name}
+							<Button variant="link" href="/workspaces/{workspace.id}">
+								{workspace.name}
 							</Button>
 						</Table.Cell>
-						<Table.Cell class="p-4">{workspace.workspace.description}</Table.Cell>
+						<Table.Cell class="p-4">{workspace.description}</Table.Cell>
 						<Table.Cell class="p-4 font-medium"
-							><Badge class="bg-blue-400">{workspace.workspace.id}</Badge></Table.Cell
+							><Badge class="bg-blue-400">{workspace.id}</Badge></Table.Cell
 						>
 					</Table.Row>
 				{/each}

@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 
 async function seed() {
 	await prisma.$transaction(async (txn) => {
+		await txn.usersOnWorkspaces.deleteMany();
 		await txn.user.deleteMany();
 		await txn.workspace.deleteMany();
-		await txn.usersOnWorkspaces.deleteMany();
 
 		const alice = await txn.user.create({
 			data: { first_name: 'Alice', last_name: 'Johnson' }

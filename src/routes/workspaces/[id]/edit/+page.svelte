@@ -7,7 +7,7 @@
 	import * as Table from '$lib/components/ui/table';
 
 	let { data } = $props();
-	let users = $state(data.users ?? []);
+	let usersInWorkspace = $state(data.usersInWorkspace ?? []);
 	let usersNotInWorkspace = $state(data.usersNotInWorkspace ?? []);
 
 	const workspaceSchema = z.object({
@@ -25,7 +25,7 @@
 		}
 	);
 
-	const handleRemoveUser = async (userId: string) => {
+	const handleRemoveUserFromWorkspace = async (userId: string) => {
 		if (!workspace?.id) {
 			console.error('Workspace ID is not defined.');
 			return;
@@ -41,16 +41,11 @@
 		});
 
 		if (response.ok) {
-			const addedUser = usersNotInWorkspace.find((user) => user.id === userId);
-			if (addedUser) {
-				users.push({
-					user: addedUser,
-					workspaceId: workspace.id,
-					userId: userId
-				});
-				usersNotInWorkspace = usersNotInWorkspace.filter((user) => user.id !== userId);
+			const removedUser = usersInWorkspace.find((user) => user.id === userId);
+			if (removedUser) {
+				usersNotInWorkspace = [...usersNotInWorkspace, removedUser];
+				usersInWorkspace = usersNotInWorkspace.filter((user) => user.id !== userId);
 			}
-			removeUserFromWorkspaceDialog = false;
 		} else {
 			console.error('Failed to remove user from workspace');
 		}
@@ -72,7 +67,11 @@
 		});
 
 		if (response.ok) {
-			users = users.filter((user) => user.userId !== userId);
+			const addedUser = usersNotInWorkspace.find((user) => user.id === userId);
+			if (addedUser) {
+				usersNotInWorkspace = usersNotInWorkspace.filter((user) => user.id !== userId);
+				usersInWorkspace = [...usersInWorkspace, addedUser];
+			}
 			addUserToWorkspaceDialog = false;
 		} else {
 			console.error('Failed to remove user from workspace');
@@ -130,7 +129,6 @@
 			<Table.Root>
 				<Table.Header>
 					<Table.Row>
-						<Table.Head class="w-[100px] p-4">ID</Table.Head>
 						<Table.Head class="p-4">Name</Table.Head>
 						<Table.Head class="p-4"></Table.Head>
 					</Table.Row>
@@ -138,7 +136,6 @@
 				<Table.Body>
 					{#each usersNotInWorkspace as user}
 						<Table.Row>
-							<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
 							<Table.Cell class="p-4">{user.first_name + ' ' + user.last_name}</Table.Cell>
 							<Table.Cell class="p-4">
 								<Button
@@ -165,37 +162,33 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each users as user}
+				{#each usersInWorkspace as user}
 					<Table.Row>
-						<Table.Cell class="p-4 font-medium">{user.user.id}</Table.Cell>
+						<Table.Cell class="p-4 font-medium">{user.id}</Table.Cell>
 						<Table.Cell class="p-4">
-							<Button variant="link" href="/users/{user.user.id}">
-								{user.user.first_name + ' ' + user.user.last_name}
+							<Button variant="link" href="/users/{user.id}">
+								{user.first_name + ' ' + user.last_name}
 							</Button>
 						</Table.Cell>
 						<Table.Cell class="p-4">
 							<Dialog.Root>
 								<Dialog.Trigger>
-									<Button on:click={() => (removeUserFromWorkspaceDialog = true)} variant="outline">
-										Remove
-									</Button>
+									<Button variant="outline">Remove</Button>
 								</Dialog.Trigger>
 								<Dialog.Overlay />
 								<Dialog.Content>
 									<Dialog.Title>Confirm Delete User</Dialog.Title>
 									<Dialog.Description>
-										Are you sure you want to remove {user.user.first_name +
-											' ' +
-											user.user.last_name} from
+										Are you sure you want to remove {user.first_name + ' ' + user.last_name} from
 										{workspace?.name}?
 									</Dialog.Description>
 									<Dialog.Footer class="sm:justify-start">
-										<Dialog.Close asChild>
+										<Dialog.Close>
 											<Button
 												type="button"
 												variant="outline"
 												onclick={() => {
-													handleRemoveUser(user.userId);
+													handleRemoveUserFromWorkspace(user.id);
 												}}>Remove</Button
 											>
 										</Dialog.Close>

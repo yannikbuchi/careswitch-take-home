@@ -14,7 +14,7 @@ export const load = async ({ params }) => {
 		};
 	}
 
-	const users = await prisma.usersOnWorkspaces.findMany({
+	const usersInWorkspaceOnWorkspaces = await prisma.usersOnWorkspaces.findMany({
 		where: {
 			workspaceId: params.id
 		},
@@ -23,15 +23,23 @@ export const load = async ({ params }) => {
 		}
 	});
 
-	const usersInWorkspace = users.map((uow) => uow.userId);
+	const usersIdInWorkspace = usersInWorkspaceOnWorkspaces.map((uow) => uow.userId);
 
-	const usersNotInWorkspace = await prisma.user.findMany({
+	const usersInWorkspace = await prisma.user.findMany({
 		where: {
 			id: {
-				notIn: usersInWorkspace
+				in: usersIdInWorkspace
 			}
 		}
 	});
 
-	return { workspace, users, usersNotInWorkspace };
+	const usersNotInWorkspace = await prisma.user.findMany({
+		where: {
+			id: {
+				notIn: usersIdInWorkspace
+			}
+		}
+	});
+
+	return { workspace, usersInWorkspace, usersNotInWorkspace };
 };
