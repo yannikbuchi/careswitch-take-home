@@ -8,19 +8,9 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { z } from 'zod';
+	import WorkspaceForm from './workspace-form.svelte';
 
 	let { data } = $props();
-
-	const workspaceSchema = z.object({
-		name: z.string().min(1, 'Name is required.'),
-		description: z.string().min(1, 'Description is required.')
-	});
-
-	const { form } = superForm(data.workspaceForm, {
-		validators: zod(workspaceSchema)
-	});
-
-	let dialogOpen = $state(false);
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -31,26 +21,12 @@
 
 	<Dialog.Root>
 		<Dialog.Trigger>
-			<Button.Root on:click={() => (dialogOpen = true)} class="mt-4">+ Add Workspace</Button.Root>
+			<Button.Root class="mt-4">+ Add Workspace</Button.Root>
 		</Dialog.Trigger>
 		<Dialog.Overlay />
 		<Dialog.Content>
 			<Dialog.Title>Add New Workspace</Dialog.Title>
-			<form method="POST" action="?/addWorkspace" use:enhance>
-				<Form.Field {form} name="name">
-					<Form.Control let:attrs>
-						<Form.Label>Name</Form.Label>
-						<Input id="name" name="name" type="text" bind:value={$form.name} />
-					</Form.Control>
-				</Form.Field>
-				<Form.Field {form} name="description">
-					<Form.Control let:attrs>
-						<Form.Label>Description</Form.Label>
-						<Input id="description" name="description" type="text" bind:value={$form.description} />
-					</Form.Control>
-				</Form.Field>
-				<Form.Button class="mt-4">Submit</Form.Button>
-			</form>
+			<WorkspaceForm data={data.form} />
 		</Dialog.Content>
 	</Dialog.Root>
 

@@ -10,7 +10,7 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<div class="flex w-full items-center justify-between">
+	<div class="mb-5 flex w-full items-center justify-between">
 		<div class="flex space-x-2">
 			<img src="/users.svg" alt="Users Icon" class="mt-2 h-7 w-7" />
 			<h1 class="text-left text-4xl font-bold">Users</h1>
@@ -18,7 +18,7 @@
 		<div>
 			<Dialog.Root bind:open>
 				<Dialog.Trigger>
-					<Button.Root class="mt-4">+ Add User</Button.Root>
+					<Button.Root class="mt-4 items-center">+ Add User</Button.Root>
 				</Dialog.Trigger>
 				<Dialog.Overlay />
 				<Dialog.Content>

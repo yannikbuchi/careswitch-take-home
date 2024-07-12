@@ -1,44 +1,36 @@
 import { prisma } from '$lib/server/db';
-import { redirect, type Actions } from '@sveltejs/kit';
-import { superValidate, message } from 'sveltekit-superforms/server';
+import { fail, type Actions } from '@sveltejs/kit';
+import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
-import { z } from 'zod';
-
-const workspaceSchema = z.object({
-	name: z.string().min(1, 'Name is required'),
-	description: z.string().min(1, 'Description is required')
-});
+import { addWorkspaceFormSchema } from './schema';
 
 export const load = async () => {
 	const workspaces = await prisma.workspace.findMany();
-	const workspaceForm = await superValidate(zod(workspaceSchema));
 
-	return { workspaces, workspaceForm };
+	return { workspaces, form: await superValidate(zod(addWorkspaceFormSchema)) };
 };
 
 export const actions: Actions = {
-	addWorkspace: async ({ request }) => {
-		const form = await superValidate(request, zod(workspaceSchema));
-		let addWorkspaceSuccess = false;
+	addWorkspace: async (event) => {
+		const form = await superValidate(event, zod(addWorkspaceFormSchema));
+
 		if (!form.valid) {
-			console.log(message(form, 'Invalid form'));
-			return message(form, 'Invalid form');
+			return fail(400, {
+				form
+			});
 		}
+
 		try {
 			const { name, description } = form.data;
 			const newWorkspace = await prisma.workspace.create({
 				data: { name, description }
 			});
-			console.log(
-				message(form, { text: 'Workspace was successfully added!', id: newWorkspace.id })
-			);
-			addWorkspaceSuccess = true;
+			return {
+				form,
+				newWorkspace
+			};
 		} catch (error) {
-			return { status: 500, body: { error: 'Failed to create workspace.' } };
-		}
-
-		if (addWorkspaceSuccess) {
-			redirect(303, '/workspaces');
+			return { status: 500, body: { error: 'Failed to create user.' } };
 		}
 	}
 };
