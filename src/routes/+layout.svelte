@@ -33,7 +33,6 @@
 			class={isWorkspacesActive ? 'font-bold text-gray-800' : 'text-gray-800 hover:text-gray-600'}
 			>Workspaces</a
 		>
-		<a href="/instructions" class="text-gray-800 hover:text-gray-600">Takehome Instructions</a>
 	</div>
 </nav>
 
