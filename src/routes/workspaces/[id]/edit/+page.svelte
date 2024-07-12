@@ -5,10 +5,13 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { z } from 'zod';
 	import * as Table from '$lib/components/ui/table';
+	import { goto } from '$app/navigation';
+	import { toast } from 'svelte-sonner';
 
 	let { data } = $props();
 	let usersInWorkspace = $state(data.usersInWorkspace ?? []);
 	let usersNotInWorkspace = $state(data.usersNotInWorkspace ?? []);
+	let workspace = data.workspace;
 
 	const workspaceSchema = z.object({
 		name: z.string().min(1, 'First name is required'),
@@ -72,17 +75,31 @@
 				usersNotInWorkspace = usersNotInWorkspace.filter((user) => user.id !== userId);
 				usersInWorkspace = [...usersInWorkspace, addedUser];
 			}
-			addUserToWorkspaceDialog = false;
 		} else {
 			console.error('Failed to remove user from workspace');
 		}
 	};
 
-	let workspace = data.workspace;
+	const handleDeleteWorkspace = async () => {
+		const form = new FormData();
 
-	let removeUserFromWorkspaceDialog = $state(false);
-	let deleteWorkspaceDialog = $state(false);
-	let addUserToWorkspaceDialog = $state(false);
+		if (!workspace?.id) {
+			console.error('Workspace ID is not defined.');
+			return;
+		}
+		form.append('worspaceId', workspace?.id);
+
+		const response = await fetch('?/deleteWorkspace', {
+			method: 'POST',
+			body: form
+		});
+
+		if (response.ok) {
+			await goto('/workspaces');
+		} else {
+			console.error('Failed to delete workspace');
+		}
+	};
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -119,7 +136,7 @@
 	<h2 class="mt-8 text-left text-2xl font-bold">Manage Current Users</h2>
 	<Dialog.Root>
 		<Dialog.Trigger>
-			<Button on:click={() => (addUserToWorkspaceDialog = true)} variant="outline" class="mt-4">
+			<Button variant="outline" class="mt-4">
 				+ Add Users to {workspace?.name}
 			</Button>
 		</Dialog.Trigger>
@@ -207,27 +224,24 @@
 				</Table.Body>
 			</Table.Root>
 		</div>
-
-		<Dialog.Root>
-			<Dialog.Trigger>
-				<Button on:click={() => (deleteWorkspaceDialog = true)} variant="destructive" class="mt-4">
-					Delete Workspace
-				</Button>
-			</Dialog.Trigger>
-			<Dialog.Overlay />
-			<Dialog.Content>
-				<Dialog.Title>Confirm Delete Workspace</Dialog.Title>
-				<form method="POST" action="?/deleteWorkspace">
-					<Dialog.Description>
-						Are you sure you want to delete this workspace? This action is permanent.
-					</Dialog.Description>
-					<Dialog.Footer class="sm:justify-start">
-						<Dialog.Close asChild>
-							<Button type="submit" variant="destructive" class="mt-4">Delete</Button>
-						</Dialog.Close>
-					</Dialog.Footer>
-				</form>
-			</Dialog.Content>
-		</Dialog.Root>
 	{/if}
+	<Dialog.Root>
+		<Dialog.Trigger>
+			<Button variant="destructive" class="mt-4">Delete Workspace</Button>
+		</Dialog.Trigger>
+		<Dialog.Overlay />
+		<Dialog.Content>
+			<Dialog.Title>Confirm Delete Workspace</Dialog.Title>
+			<Dialog.Description>
+				Are you sure you want to delete this workspace? This action is permanent.
+			</Dialog.Description>
+			<Dialog.Footer class="sm:justify-start">
+				<Dialog.Close>
+					<Button type="button" variant="destructive" class="mt-4" on:click={handleDeleteWorkspace}
+						>Delete</Button
+					>
+				</Dialog.Close>
+			</Dialog.Footer>
+		</Dialog.Content>
+	</Dialog.Root>
 </div>

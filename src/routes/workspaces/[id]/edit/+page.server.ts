@@ -38,22 +38,28 @@ export const actions: Actions = {
 
 		redirect(303, `/workspaces/${params.id}`);
 	},
-	deleteWorkspace: async ({ params }) => {
-		let deleteSuccess = false;
-
-		try {
-			await prisma.workspace.delete({
-				where: {
-					id: params.id
-				}
-			});
-			deleteSuccess = true;
-		} catch (error) {
-			return fail(500, { error: 'Failed to delete workspace' });
+	deleteWorkspace: async ({ request, params }) => {
+		const data = await request.formData();
+		const workspaceId = data.get('worspaceId');
+		console.log('Workspace ID!!', workspaceId);
+		if (typeof workspaceId !== 'string') {
+			return fail(400, { error: 'Invalid workspace Id' });
 		}
 
-		if (deleteSuccess) {
-			return redirect(303, '/workspaces');
+		try {
+			await prisma.usersOnWorkspaces.deleteMany({
+				where: {
+					workspaceId: workspaceId
+				}
+			});
+
+			await prisma.workspace.delete({
+				where: {
+					id: workspaceId
+				}
+			});
+		} catch (error) {
+			return fail(500, { error: 'Failed to delete workspace' });
 		}
 	},
 	removeUserFromWorkspace: async ({ request }) => {
