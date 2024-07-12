@@ -113,7 +113,7 @@
 				class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 p-2.5 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 			/>
 		</div>
-		<Button href="/workspaces" variant="outline">Cancel</Button>
+		<Button href="/workspaces/{workspace?.id}" variant="outline">Cancel</Button>
 		<Button type="submit" class="mt-4">Save Changes</Button>
 	</form>
 
