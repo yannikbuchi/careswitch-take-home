@@ -3,6 +3,7 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Button from '$lib/components/ui/button';
 	import WorkspaceForm from './workspace-form.svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	let { data } = $props();
 </script>
@@ -31,27 +32,23 @@
 		<Table.Root>
 			<Table.Header class="bg-gray-100">
 				<Table.Row>
-					<Table.Head class="w-[100px] p-4">ID</Table.Head>
-					<Table.Head class="p-4">Name</Table.Head>
+					<Table.Head class="p-4">Workspace</Table.Head>
 					<Table.Head class="p-4">Description</Table.Head>
-					<Table.Head class="p-4"></Table.Head>
+					<Table.Head class="w-[100px] p-4">ID</Table.Head>
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
 				{#each data.workspaces as workspace (workspace.id)}
 					<Table.Row>
-						<Table.Cell class="p-4 font-medium">{workspace.id}</Table.Cell>
 						<Table.Cell class="p-4">
 							<Button.Root variant="link" href={`/workspaces/${workspace.id}`}>
 								{workspace.name}
 							</Button.Root>
 						</Table.Cell>
 						<Table.Cell class="p-4">{workspace.description}</Table.Cell>
-						<Table.Cell class="p-4">
-							<a href={`/workspaces/${workspace.id}/edit`} class="text-blue-500 hover:underline"
-								>Edit</a
-							>
-						</Table.Cell>
+						<Table.Cell class="p-4 font-medium"
+							><Badge class="bg-blue-400">{workspace.id}</Badge></Table.Cell
+						>
 					</Table.Row>
 				{/each}
 			</Table.Body>

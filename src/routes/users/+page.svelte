@@ -3,7 +3,7 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Button from '$lib/components/ui/button';
 	import UsersForm from './users-form.svelte';
-	import { onMount } from 'svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	let { data } = $props();
 	let open = $state(false);
@@ -33,9 +33,8 @@
 		<Table.Root>
 			<Table.Header class="bg-gray-100">
 				<Table.Row>
-					<Table.Head class="w-[300px] p-4">ID</Table.Head>
 					<Table.Head class="w-[200px] p-4">Name</Table.Head>
-					<Table.Head class="mr-4 p-4 text-right"></Table.Head>
+					<Table.Head class="w-[300px] p-4">ID</Table.Head>
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
@@ -46,15 +45,14 @@
 				{:else}
 					{#each data.users as user (user.id)}
 						<Table.Row>
-							<Table.Cell class="w-[300px] p-4 font-medium">{user.id}</Table.Cell>
 							<Table.Cell class="w-[200px] p-4">
 								<Button.Root variant="link" href="/users/{user.id}">
 									{user.first_name + ' ' + user.last_name}
 								</Button.Root>
 							</Table.Cell>
-							<Table.Cell class="mr-10 p-4 text-right">
-								<a href="/users/{user.id}/edit" class="text-blue-500 hover:underline">Edit</a>
-							</Table.Cell>
+							<Table.Cell class="w-[300px] p-4 font-medium"
+								><Badge class="bg-blue-400">{user.id}</Badge></Table.Cell
+							>
 						</Table.Row>
 					{/each}
 				{/if}

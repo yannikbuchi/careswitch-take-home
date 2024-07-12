@@ -36,26 +36,27 @@
 	</div>
 
 	<form method="POST" action="?/editUser" class="mt-4">
-		<div class="mb-4">
+		<div class="mb-4 w-[300px]">
 			<label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
 			<input
 				id="first_name"
 				name="first_name"
 				bind:value={$form.first_name}
 				type="text"
-				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+				class="mt-1 block w-full rounded-md border-gray-400 bg-gray-100 p-2.5 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 			/>
 		</div>
-		<div class="mb-4">
+		<div class="mb-4 w-[300px]">
 			<label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
 			<input
 				id="last_name"
 				name="last_name"
 				bind:value={$form.last_name}
 				type="text"
-				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+				class="mt-1 block w-full rounded-md border-gray-400 bg-gray-100 p-2.5 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 			/>
 		</div>
+		<Button href="/users" variant="outline">Cancel</Button>
 		<Button type="submit" class="mt-4">Save Changes</Button>
 	</form>
 
