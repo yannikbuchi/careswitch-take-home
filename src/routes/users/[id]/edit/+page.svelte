@@ -172,29 +172,35 @@
 		<Dialog.Overlay />
 		<Dialog.Content>
 			<Dialog.Title>Add Workspace</Dialog.Title>
-			<Table.Root>
-				<Table.Header>
-					<Table.Row>
-						<Table.Head class="p-4">Name</Table.Head>
-						<Table.Head class="p-4"></Table.Head>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{#each workspacesNotInUser as workspace}
+			{#if workspacesNotInUser.length == 0}
+				<p class="mt-4 rounded-sm bg-gray-100 p-3 text-center text-slate-400">
+					There are currently no workspaces available.
+				</p>
+			{:else}
+				<Table.Root>
+					<Table.Header>
 						<Table.Row>
-							<Table.Cell class="p-4">{workspace.name}</Table.Cell>
-							<Table.Cell class="p-4">
-								<Button
-									variant="outline"
-									onclick={() => {
-										handleAddUsersToWorkspace(workspace.id);
-									}}>Add</Button
-								>
-							</Table.Cell>
+							<Table.Head class="p-4">Name</Table.Head>
+							<Table.Head class="p-4"></Table.Head>
 						</Table.Row>
-					{/each}
-				</Table.Body>
-			</Table.Root>
+					</Table.Header>
+					<Table.Body>
+						{#each workspacesNotInUser as workspace}
+							<Table.Row>
+								<Table.Cell class="p-4">{workspace.name}</Table.Cell>
+								<Table.Cell class="p-4">
+									<Button
+										variant="outline"
+										onclick={() => {
+											handleAddUsersToWorkspace(workspace.id);
+										}}>Add</Button
+									>
+								</Table.Cell>
+							</Table.Row>
+						{/each}
+					</Table.Body>
+				</Table.Root>
+			{/if}
 		</Dialog.Content>
 	</Dialog.Root>
 	{#if workspacesInUser.length === 0}

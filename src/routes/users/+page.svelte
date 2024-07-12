@@ -39,20 +39,20 @@
 	<hr class="my-4" />
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
-		<Table.Root>
-			<Table.Header class="bg-gray-100">
-				<Table.Row>
-					<Table.Head class="w-[200px] p-4"></Table.Head>
-					<Table.Head class="w-[200px] p-4">Name</Table.Head>
-					<Table.Head class="w-[300px] p-4">ID</Table.Head>
-				</Table.Row>
-			</Table.Header>
-			<Table.Body>
-				{#if data.users.length === 0}
-					<tr>
-						<td colspan="4" class="p-4 text-center text-gray-500">There are currently no users.</td>
-					</tr>
-				{:else}
+		{#if data.users.length === 0}
+			<p class="mt-4 rounded-sm bg-gray-100 p-3 text-center text-slate-400">
+				There are currently no workspaces available.
+			</p>
+		{:else}
+			<Table.Root>
+				<Table.Header class="bg-gray-100">
+					<Table.Row>
+						<Table.Head class="w-[200px] p-4"></Table.Head>
+						<Table.Head class="w-[200px] p-4">Name</Table.Head>
+						<Table.Head class="w-[300px] p-4">ID</Table.Head>
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
 					{#each data.users as user (user.id)}
 						<Table.Row>
 							<Table.Cell class="d flex w-[200px] p-4 text-right">
@@ -69,8 +69,8 @@
 							>
 						</Table.Row>
 					{/each}
-				{/if}
-			</Table.Body>
-		</Table.Root>
+				</Table.Body>
+			</Table.Root>
+		{/if}
 	</div>
 </div>
