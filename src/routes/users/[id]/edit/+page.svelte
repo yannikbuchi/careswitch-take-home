@@ -8,7 +8,7 @@
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	let { data } = $props();
-	let workspaces = $state(data.workspaces ?? []);
+	let workspacesInUser = $state(data.workspacesInUser ?? []);
 	let workspacesNotInUser = $state(data.workspacesNotInUser ?? []);
 	let addUserToWorkspaceDialog = $state(false);
 	let removeUserFromWorkspaceDialog = $state(false);
@@ -28,7 +28,7 @@
 		}
 	);
 
-	const handleRemoveWorkspace = async (workspaceId: string) => {
+	const handleRemoveUserFromWorkspace = async (workspaceId: string) => {
 		if (!user?.id) {
 			console.error('User ID is not defined.');
 			return;
@@ -44,16 +44,10 @@
 		});
 
 		if (response.ok) {
-			const addedWorkspace = workspacesNotInUser.find((workspace) => workspace.id === workspaceId);
-			if (addedWorkspace) {
-				workspaces.push({
-					workspace: addedWorkspace,
-					workspaceId: workspaceId,
-					userId: user.id
-				});
-				workspacesNotInUser = workspacesNotInUser.filter(
-					(workspace) => workspace.id !== workspaceId
-				);
+			const removedWorkspace = workspacesInUser.find((workspace) => workspace.id === workspaceId);
+			if (removedWorkspace) {
+				workspacesInUser = workspacesInUser.filter((workspace) => workspace.id !== workspaceId);
+				workspacesNotInUser = [...workspacesNotInUser, removedWorkspace];
 			}
 		} else {
 			console.error('Failed to remove user from workspace');
@@ -76,7 +70,9 @@
 		});
 
 		if (response.ok) {
-			workspaces = workspaces.filter((workspace) => workspace.workspaceId !== workspaceId);
+			const addedWorkspace = workspacesNotInUser.find((workspace) => workspace.id === workspaceId);
+			workspacesInUser = [...workspacesInUser];
+			workspacesNotInUser = workspacesNotInUser.filter((workspace) => workspace.id !== workspaceId);
 		} else {
 			console.error('Failed to remove user from workspace');
 		}
@@ -168,38 +164,35 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each workspaces as workspace}
+				{#each workspacesInUser as workspace}
 					<Table.Row>
 						<Table.Cell class="p-4">
-							<Button variant="link" href="/workspaces/{workspace.workspace.id}">
-								{workspace.workspace.name}
+							<Button variant="link" href="/workspaces/{workspace.id}">
+								{workspace.name}
 							</Button>
 						</Table.Cell>
-						<Table.Cell class="p-4">{workspace.workspace.description}</Table.Cell>
+						<Table.Cell class="p-4">{workspace.description}</Table.Cell>
 						<Table.Cell class="p-4 font-medium"
-							><Badge class="bg-blue-400">{workspace.workspace.id}</Badge></Table.Cell
+							><Badge class="bg-blue-400">{workspace.id}</Badge></Table.Cell
 						>
 						<Table.Cell class="p-4">
 							<Dialog.Root>
 								<Dialog.Trigger>
-									<Button on:click={() => (removeUserFromWorkspaceDialog = true)} variant="outline">
-										Remove
-									</Button>
+									<Button variant="outline">Remove</Button>
 								</Dialog.Trigger>
 								<Dialog.Overlay />
 								<Dialog.Content>
 									<Dialog.Title>Confirm Delete User</Dialog.Title>
 									<Dialog.Description>
-										Are you sure you want to remove {user?.first_name + ' ' + user?.last_name} from {workspace
-											.workspace.description}?
+										Are you sure you want to remove {user?.first_name + ' ' + user?.last_name} from {workspace.description}?
 									</Dialog.Description>
 									<Dialog.Footer class="sm:justify-start">
-										<Dialog.Close asChild>
+										<Dialog.Close>
 											<Button
 												type="button"
 												variant="outline"
 												onclick={() => {
-													handleRemoveWorkspace(workspace.workspaceId);
+													handleRemoveUserFromWorkspace(workspace.id);
 												}}>Remove</Button
 											>
 										</Dialog.Close>
