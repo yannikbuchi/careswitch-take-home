@@ -4,6 +4,7 @@
 	import * as Form from '$lib/components/ui/form';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { addUserFormSchema, type AddUserFormSchema } from './schema.js';
+	import { DialogClose } from '$lib/components/ui/dialog/index.js';
 
 	export let data: SuperValidated<Infer<AddUserFormSchema>>;
 
@@ -29,5 +30,7 @@
 		</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Button class="mt-4">Submit</Form.Button>
+	<DialogClose>
+		<Form.Button class="mt-4">Submit</Form.Button>
+	</DialogClose>
 </form>

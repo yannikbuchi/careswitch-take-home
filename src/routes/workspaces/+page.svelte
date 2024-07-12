@@ -14,21 +14,24 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-	<div class="flex items-center space-x-2">
-		<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
-		<h1 class="text-left text-4xl font-bold">Workspaces</h1>
+	<div class="mb-5 flex w-full items-center justify-between">
+		<div class="flex space-x-2">
+			<img src="/workspace.svg" alt="Workspace Icon" class="mt-2 h-7 w-7" />
+			<h1 class="text-left text-4xl font-bold">Workspaces</h1>
+		</div>
+		<div>
+			<Dialog.Root>
+				<Dialog.Trigger>
+					<Button.Root class="mt-4">+ Add Workspace</Button.Root>
+				</Dialog.Trigger>
+				<Dialog.Overlay />
+				<Dialog.Content>
+					<Dialog.Title>Add New Workspace</Dialog.Title>
+					<WorkspaceForm data={data.form} />
+				</Dialog.Content>
+			</Dialog.Root>
+		</div>
 	</div>
-
-	<Dialog.Root>
-		<Dialog.Trigger>
-			<Button.Root class="mt-4">+ Add Workspace</Button.Root>
-		</Dialog.Trigger>
-		<Dialog.Overlay />
-		<Dialog.Content>
-			<Dialog.Title>Add New Workspace</Dialog.Title>
-			<WorkspaceForm data={data.form} />
-		</Dialog.Content>
-	</Dialog.Root>
 
 	<div class="mt-4 overflow-hidden rounded-lg border border-gray-300">
 		<Table.Root>
